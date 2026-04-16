@@ -344,7 +344,4 @@
     <circle cx="800" cy="358" r="6" fill="#1e1b4b" stroke="#0d9488" stroke-width="1.2"/><circle cx="800" cy="358" r="2" fill="#2dd4bf"/>
   </g>
 
-  <!-- Footer -->
-  <text x="450" y="400" text-anchor="middle" font-family="'Segoe UI',system-ui,sans-serif" font-size="9" fill="#64748b" letter-spacing="1.5px">How Agentic AI Works: Query > Reason > Plan > Execute > Remember > Guard > Output</text>
-  <text x="450" y="415" text-anchor="middle" font-family="'Courier New',monospace" font-size="7" fill="#475569" letter-spacing="1px">LangGraph // CrewAI // AutoGen // OpenAI // Claude // FastAPI // ChromaDB // FAISS // Pinecone</text>
 </svg>
