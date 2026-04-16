@@ -1,220 +1,393 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 500" width="840" height="500">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 480" width="850" height="480">
   <defs>
-    <filter id="glow-g" x="-50%" y="-50%" width="200%" height="200%">
+    <filter id="gl" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="gl2" x="-30%" y="-30%" width="160%" height="160%">
       <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="glow-c" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="glow-m" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="glow-gold" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="big-glow" x="-50%" y="-50%" width="200%" height="200%">
-      <feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <radialGradient id="bg" cx="50%" cy="50%" r="70%">
-      <stop offset="0%" style="stop-color:#0d1117"/><stop offset="100%" style="stop-color:#010409"/>
-    </radialGradient>
-    <linearGradient id="nameGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#00ff41"/><stop offset="30%" style="stop-color:#00ffaa"/><stop offset="60%" style="stop-color:#00d4ff"/><stop offset="100%" style="stop-color:#a855f7"/>
+    <linearGradient id="trackGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:0.1"/>
+      <stop offset="50%" style="stop-color:#6366f1;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#6366f1;stop-opacity:0.1"/>
     </linearGradient>
-    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#00ff41;stop-opacity:0"/><stop offset="50%" style="stop-color:#00ff41;stop-opacity:0.6"/><stop offset="100%" style="stop-color:#00ff41;stop-opacity:0"/>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f8faff"/>
+      <stop offset="100%" style="stop-color:#eef2ff"/>
     </linearGradient>
-    <linearGradient id="lineGrad2" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#ff00aa;stop-opacity:0"/><stop offset="50%" style="stop-color:#ff00aa;stop-opacity:0.4"/><stop offset="100%" style="stop-color:#ff00aa;stop-opacity:0"/>
+    <linearGradient id="pipe1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#818cf8"/><stop offset="100%" style="stop-color:#6366f1"/>
+    </linearGradient>
+    <linearGradient id="pipe2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#34d399"/><stop offset="100%" style="stop-color:#10b981"/>
+    </linearGradient>
+    <linearGradient id="pipe3" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f472b6"/><stop offset="100%" style="stop-color:#ec4899"/>
     </linearGradient>
   </defs>
 
   <style>
-    .r { font-family: 'Courier New', monospace; font-size: 12px; }
+    @keyframes walk { 0%,100% { transform: translateY(0); } 25% { transform: translateY(-3px); } 50% { transform: translateY(0); } 75% { transform: translateY(-2px); } }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
     @keyframes pulse { 0%,100% { opacity: 0.7; } 50% { opacity: 1; } }
-    @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+    @keyframes dataFlow { 0% { transform: translateX(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(60px); opacity: 0; } }
+    @keyframes dataFlow2 { 0% { transform: translateX(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateX(50px); opacity: 0; } }
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes blink { 0%,90%,100% { opacity: 1; } 95% { opacity: 0; } }
+    @keyframes wave1 { 0%,100% { transform: translateY(0) rotate(-5deg); } 50% { transform: translateY(-2px) rotate(5deg); } }
+    @keyframes wave2 { 0%,100% { transform: translateY(-2px) rotate(3deg); } 50% { transform: translateY(0) rotate(-3deg); } }
+    @keyframes gearSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 600; font-size: 9px; letter-spacing: 0.5px; }
+    .tool-label { font-family: 'Courier New', monospace; font-size: 7.5px; font-weight: 600; }
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; }
+    .sub { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 400; }
   </style>
 
   <!-- Background -->
-  <rect width="840" height="500" fill="url(#bg)" rx="10"/>
+  <rect width="850" height="480" fill="url(#bg)" rx="12"/>
 
-  <!-- Double border -->
-  <rect x="2" y="2" width="836" height="496" rx="10" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.15"/>
-  <rect x="6" y="6" width="828" height="488" rx="8" fill="none" stroke="#00ff41" stroke-width="0.5" stroke-opacity="0.08"/>
-
-  <!-- Corner accents -->
-  <path d="M20,8 L8,8 L8,20" fill="none" stroke="#00ff41" stroke-width="1.5" stroke-opacity="0.5"/>
-  <path d="M820,8 L832,8 L832,20" fill="none" stroke="#00ff41" stroke-width="1.5" stroke-opacity="0.5"/>
-  <path d="M20,492 L8,492 L8,480" fill="none" stroke="#00ff41" stroke-width="1.5" stroke-opacity="0.5"/>
-  <path d="M820,492 L832,492 L832,480" fill="none" stroke="#00ff41" stroke-width="1.5" stroke-opacity="0.5"/>
-
-  <!-- ========== MATRIX RAIN COLUMNS ========== -->
-
-  <!-- Layer 1: Bright foreground rain -->
-  <g class="r" fill="#00ff41" opacity="0.35">
-    <text x="20" y="0"><animate attributeName="y" from="-180" to="700" dur="5.5s" repeatCount="indefinite" begin="0s"/>LangGraph</text>
-    <text x="95" y="0"><animate attributeName="y" from="-300" to="700" dur="6.2s" repeatCount="indefinite" begin="0.8s"/>FastAPI</text>
-    <text x="160" y="0"><animate attributeName="y" from="-100" to="700" dur="4.8s" repeatCount="indefinite" begin="1.5s"/>RAG</text>
-    <text x="205" y="0"><animate attributeName="y" from="-250" to="700" dur="7s" repeatCount="indefinite" begin="0.3s"/>chromadb</text>
-    <text x="290" y="0"><animate attributeName="y" from="-150" to="700" dur="5.8s" repeatCount="indefinite" begin="2s"/>agent</text>
-    <text x="350" y="0"><animate attributeName="y" from="-350" to="700" dur="6.5s" repeatCount="indefinite" begin="0.5s"/>Docker</text>
-    <text x="420" y="0"><animate attributeName="y" from="-200" to="700" dur="5.2s" repeatCount="indefinite" begin="1.2s"/>Python</text>
-    <text x="490" y="0"><animate attributeName="y" from="-280" to="700" dur="6.8s" repeatCount="indefinite" begin="1.8s"/>Kafka</text>
-    <text x="545" y="0"><animate attributeName="y" from="-120" to="700" dur="5s" repeatCount="indefinite" begin="0.6s"/>Go</text>
-    <text x="580" y="0"><animate attributeName="y" from="-320" to="700" dur="7.2s" repeatCount="indefinite" begin="2.2s"/>React</text>
-    <text x="640" y="0"><animate attributeName="y" from="-170" to="700" dur="5.6s" repeatCount="indefinite" begin="1s"/>GCP</text>
-    <text x="690" y="0"><animate attributeName="y" from="-400" to="700" dur="6s" repeatCount="indefinite" begin="0.4s"/>AWS</text>
-    <text x="740" y="0"><animate attributeName="y" from="-220" to="700" dur="5.4s" repeatCount="indefinite" begin="1.6s"/>MLflow</text>
-    <text x="800" y="0"><animate attributeName="y" from="-290" to="700" dur="6.4s" repeatCount="indefinite" begin="2.5s"/>dbt</text>
+  <!-- Subtle grid pattern -->
+  <g opacity="0.04">
+    <line x1="0" y1="60" x2="850" y2="60" stroke="#6366f1" stroke-width="0.5"/>
+    <line x1="0" y1="120" x2="850" y2="120" stroke="#6366f1" stroke-width="0.5"/>
+    <line x1="0" y1="180" x2="850" y2="180" stroke="#6366f1" stroke-width="0.5"/>
+    <line x1="0" y1="240" x2="850" y2="240" stroke="#6366f1" stroke-width="0.5"/>
+    <line x1="0" y1="300" x2="850" y2="300" stroke="#6366f1" stroke-width="0.5"/>
+    <line x1="0" y1="360" x2="850" y2="360" stroke="#6366f1" stroke-width="0.5"/>
+    <line x1="0" y1="420" x2="850" y2="420" stroke="#6366f1" stroke-width="0.5"/>
   </g>
 
-  <!-- Layer 2: Bright head characters (white-green) -->
-  <g class="r" fill="#aaffaa" filter="url(#glow-g)" opacity="0.5">
-    <text x="20" y="0"><animate attributeName="y" from="-60" to="700" dur="5.5s" repeatCount="indefinite" begin="0s"/>></text>
-    <text x="95" y="0"><animate attributeName="y" from="-180" to="700" dur="6.2s" repeatCount="indefinite" begin="0.8s"/>_</text>
-    <text x="160" y="0"><animate attributeName="y" from="-20" to="700" dur="4.8s" repeatCount="indefinite" begin="1.5s"/>|</text>
-    <text x="290" y="0"><animate attributeName="y" from="-30" to="700" dur="5.8s" repeatCount="indefinite" begin="2s"/>$</text>
-    <text x="420" y="0"><animate attributeName="y" from="-80" to="700" dur="5.2s" repeatCount="indefinite" begin="1.2s"/>></text>
-    <text x="545" y="0"><animate attributeName="y" from="-10" to="700" dur="5s" repeatCount="indefinite" begin="0.6s"/>_</text>
-    <text x="690" y="0"><animate attributeName="y" from="-280" to="700" dur="6s" repeatCount="indefinite" begin="0.4s"/>|</text>
-    <text x="800" y="0"><animate attributeName="y" from="-170" to="700" dur="6.4s" repeatCount="indefinite" begin="2.5s"/>></text>
+  <!-- ===== TITLE ===== -->
+  <text class="title" x="425" y="32" text-anchor="middle" font-size="16" fill="#4338ca" letter-spacing="2px">HOW AGENTIC AI SYSTEMS WORK</text>
+  <text class="sub" x="425" y="48" text-anchor="middle" font-size="10" fill="#6366f1" letter-spacing="1px">End-to-End Pipeline: From User Query to Intelligent Action</text>
+  <line x1="180" y1="55" x2="670" y2="55" stroke="#c7d2fe" stroke-width="1"/>
+
+  <!-- ===== ROW 1: USER INPUT -> LLM BRAIN -> PLANNING ===== -->
+
+  <!-- Connection pipes Row 1 -->
+  <rect x="155" y="103" width="55" height="4" rx="2" fill="url(#pipe1)" opacity="0.5"/>
+  <circle cx="170" cy="105" r="3" fill="#818cf8"><animate attributeName="cx" from="155" to="210" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite"/></circle>
+
+  <rect x="325" y="103" width="55" height="4" rx="2" fill="url(#pipe1)" opacity="0.5"/>
+  <circle cx="340" cy="105" r="3" fill="#818cf8"><animate attributeName="cx" from="325" to="380" dur="1.5s" repeatCount="indefinite" begin="0.3s"/><animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite" begin="0.3s"/></circle>
+
+  <rect x="500" y="103" width="55" height="4" rx="2" fill="url(#pipe1)" opacity="0.5"/>
+  <circle cx="515" cy="105" r="3" fill="#818cf8"><animate attributeName="cx" from="500" to="555" dur="1.5s" repeatCount="indefinite" begin="0.6s"/><animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite" begin="0.6s"/></circle>
+
+  <rect x="670" y="103" width="55" height="4" rx="2" fill="url(#pipe1)" opacity="0.5"/>
+  <circle cx="685" cy="105" r="3" fill="#818cf8"><animate attributeName="cx" from="670" to="725" dur="1.5s" repeatCount="indefinite" begin="0.9s"/><animate attributeName="opacity" values="0;1;0" dur="1.5s" repeatCount="indefinite" begin="0.9s"/></circle>
+
+  <!-- BOT 1: User/Query (Blue) -->
+  <g style="animation: walk 0.8s ease-in-out infinite">
+    <rect x="30" y="72" width="125" height="65" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+    <!-- Bot face -->
+    <circle cx="60" cy="97" r="16" fill="#c7d2fe"/>
+    <circle cx="54" cy="93" r="3" fill="#4338ca"><animate attributeName="r" values="3;2;3" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="66" cy="93" r="3" fill="#4338ca"><animate attributeName="r" values="3;2;3" dur="3s" repeatCount="indefinite" begin="0.2s"/></circle>
+    <path d="M52,101 Q60,108 68,101" fill="none" stroke="#4338ca" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Antenna -->
+    <line x1="60" y1="81" x2="60" y2="74" stroke="#6366f1" stroke-width="1.5"/>
+    <circle cx="60" cy="72" r="2.5" fill="#818cf8"><animate attributeName="fill" values="#818cf8;#c084fc;#818cf8" dur="2s" repeatCount="indefinite"/></circle>
+    <text class="label" x="105" y="93" text-anchor="middle" fill="#4338ca">USER</text>
+    <text class="label" x="105" y="103" text-anchor="middle" fill="#4338ca">QUERY</text>
+    <text class="tool-label" x="93" y="128" text-anchor="middle" fill="#6366f1">prompt / intent</text>
   </g>
 
-  <!-- Layer 3: Dim mid-layer rain -->
-  <g class="r" fill="#004d14" opacity="0.3">
-    <text x="55" y="0"><animate attributeName="y" from="-200" to="700" dur="8s" repeatCount="indefinite" begin="2s"/>retrieval</text>
-    <text x="130" y="0"><animate attributeName="y" from="-350" to="700" dur="9s" repeatCount="indefinite" begin="0.5s"/>webhook</text>
-    <text x="245" y="0"><animate attributeName="y" from="-150" to="700" dur="8.5s" repeatCount="indefinite" begin="1.5s"/>deploy</text>
-    <text x="320" y="0"><animate attributeName="y" from="-400" to="700" dur="7.5s" repeatCount="indefinite" begin="2.5s"/>stream</text>
-    <text x="390" y="0"><animate attributeName="y" from="-280" to="700" dur="9.5s" repeatCount="indefinite" begin="0.8s"/>OpenAI</text>
-    <text x="460" y="0"><animate attributeName="y" from="-100" to="700" dur="8.2s" repeatCount="indefinite" begin="1.8s"/>embed</text>
-    <text x="520" y="0"><animate attributeName="y" from="-330" to="700" dur="7.8s" repeatCount="indefinite" begin="3s"/>vector</text>
-    <text x="610" y="0"><animate attributeName="y" from="-180" to="700" dur="8.8s" repeatCount="indefinite" begin="0.3s"/>index</text>
-    <text x="670" y="0"><animate attributeName="y" from="-420" to="700" dur="9.2s" repeatCount="indefinite" begin="1.2s"/>FAISS</text>
-    <text x="760" y="0"><animate attributeName="y" from="-260" to="700" dur="8.6s" repeatCount="indefinite" begin="2.2s"/>parse</text>
+  <!-- BOT 2: LLM Brain (Purple) -->
+  <g style="animation: bounce 1.2s ease-in-out infinite">
+    <rect x="210" y="72" width="115" height="65" rx="12" fill="#faf5ff" stroke="#a855f7" stroke-width="1.5"/>
+    <!-- Bot face - brain bot -->
+    <circle cx="240" cy="97" r="16" fill="#e9d5ff"/>
+    <circle cx="234" cy="93" r="3" fill="#7c3aed"><animate attributeName="r" values="3;3.5;3" dur="1.5s" repeatCount="indefinite"/></circle>
+    <circle cx="246" cy="93" r="3" fill="#7c3aed"><animate attributeName="r" values="3;3.5;3" dur="1.5s" repeatCount="indefinite" begin="0.3s"/></circle>
+    <path d="M232,102 Q240,106 248,102" fill="none" stroke="#7c3aed" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Brain waves -->
+    <path d="M230,82 Q235,78 240,82 Q245,86 250,82" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.6" style="animation: wave1 1s ease-in-out infinite"/>
+    <text class="label" x="290" y="93" text-anchor="middle" fill="#7c3aed">LLM</text>
+    <text class="label" x="290" y="103" text-anchor="middle" fill="#7c3aed">BRAIN</text>
+    <text class="tool-label" x="267" y="128" text-anchor="middle" fill="#a855f7">GPT / Claude / Llama</text>
   </g>
 
-  <!-- Layer 4: Very faint deep background -->
-  <g class="r" fill="#002a0a" opacity="0.2">
-    <text x="40" y="0"><animate attributeName="y" from="-300" to="700" dur="11s" repeatCount="indefinite" begin="0s"/>SageMaker</text>
-    <text x="180" y="0"><animate attributeName="y" from="-150" to="700" dur="10s" repeatCount="indefinite" begin="1s"/>Snowflake</text>
-    <text x="310" y="0"><animate attributeName="y" from="-450" to="700" dur="12s" repeatCount="indefinite" begin="2s"/>BigQuery</text>
-    <text x="440" y="0"><animate attributeName="y" from="-200" to="700" dur="10.5s" repeatCount="indefinite" begin="0.5s"/>Airflow</text>
-    <text x="560" y="0"><animate attributeName="y" from="-380" to="700" dur="11.5s" repeatCount="indefinite" begin="1.5s"/>Spark</text>
-    <text x="700" y="0"><animate attributeName="y" from="-250" to="700" dur="10.8s" repeatCount="indefinite" begin="2.5s"/>Redis</text>
-    <text x="130" y="0"><animate attributeName="y" from="-500" to="700" dur="13s" repeatCount="indefinite" begin="3s"/>Pinecone</text>
-    <text x="370" y="0"><animate attributeName="y" from="-320" to="700" dur="11.8s" repeatCount="indefinite" begin="0.8s"/>Lambda</text>
-    <text x="500" y="0"><animate attributeName="y" from="-180" to="700" dur="12.5s" repeatCount="indefinite" begin="1.8s"/>Vertex</text>
-    <text x="620" y="0"><animate attributeName="y" from="-400" to="700" dur="10.2s" repeatCount="indefinite" begin="3.5s"/>k8s</text>
-    <text x="770" y="0"><animate attributeName="y" from="-280" to="700" dur="11.2s" repeatCount="indefinite" begin="0.3s"/>torch</text>
+  <!-- BOT 3: Planner (Indigo) -->
+  <g style="animation: float 1.5s ease-in-out infinite">
+    <rect x="380" y="72" width="120" height="65" rx="12" fill="#eef2ff" stroke="#6366f1" stroke-width="1.5"/>
+    <!-- Bot face - thinking bot -->
+    <circle cx="410" cy="97" r="16" fill="#c7d2fe"/>
+    <circle cx="404" cy="93" r="3" fill="#4338ca"/>
+    <circle cx="416" cy="93" r="3" fill="#4338ca"/>
+    <path d="M404,103 L416,103" fill="none" stroke="#4338ca" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Thought bubble -->
+    <circle cx="426" cy="80" r="2" fill="#a5b4fc" opacity="0.6"/>
+    <circle cx="430" cy="75" r="3" fill="#a5b4fc" opacity="0.5"/>
+    <circle cx="436" cy="70" r="4" fill="#a5b4fc" opacity="0.4"><animate attributeName="r" values="4;5;4" dur="2s" repeatCount="indefinite"/></circle>
+    <text class="label" x="462" y="90" text-anchor="middle" fill="#4338ca">PLANNER</text>
+    <text class="label" x="462" y="100" text-anchor="middle" fill="#4338ca">AGENT</text>
+    <text class="tool-label" x="440" y="128" text-anchor="middle" fill="#6366f1">LangGraph / CrewAI</text>
   </g>
 
-  <!-- ========== CENTRAL IDENTITY PANEL ========== -->
-
-  <!-- Panel backdrop with gradient border -->
-  <rect x="100" y="115" width="640" height="270" rx="8" fill="#010409" fill-opacity="0.92" opacity="0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.8s" begin="1.5s" fill="freeze"/>
-  </rect>
-  <!-- Panel border glow -->
-  <rect x="100" y="115" width="640" height="270" rx="8" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0" opacity="0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.8s" begin="1.5s" fill="freeze"/>
-    <animate attributeName="stroke-opacity" values="0.2;0.5;0.2" dur="3s" begin="1.5s" repeatCount="indefinite"/>
-  </rect>
-  <!-- Inner border -->
-  <rect x="104" y="119" width="632" height="262" rx="6" fill="none" stroke="#00ff41" stroke-width="0.3" stroke-opacity="0" opacity="0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.8s" begin="1.5s" fill="freeze"/>
-    <animate attributeName="stroke-opacity" from="0" to="0.15" dur="0.8s" begin="1.5s" fill="freeze"/>
-  </rect>
-
-  <!-- Top decorative line -->
-  <line x1="130" y1="140" x2="710" y2="140" stroke="url(#lineGrad)" stroke-width="0.5" opacity="0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="2s" fill="freeze"/>
-  </line>
-
-  <!-- Boot text -->
-  <text x="420" y="135" text-anchor="middle" font-family="'Courier New', monospace" font-size="9" fill="#00ff41" letter-spacing="3px" opacity="0">
-    SYSTEM BOOT // IDENTITY MATRIX v3.0 // NEURAL LINK ACTIVE
-    <animate attributeName="opacity" from="0" to="0.5" dur="0.4s" begin="2s" fill="freeze"/>
-  </text>
-
-  <!-- ===== NAME: Single centered text ===== -->
-  <text x="420" y="210" text-anchor="middle" font-family="'Courier New', monospace" font-size="52" font-weight="bold" fill="url(#nameGrad)" filter="url(#big-glow)" letter-spacing="8px" opacity="0">
-    NAGENDHRA
-    <animate attributeName="opacity" values="0;0.3;1;0.8;1" dur="0.6s" begin="2.5s" fill="freeze"/>
-  </text>
-  <!-- Name shadow/echo for depth -->
-  <text x="420" y="210" text-anchor="middle" font-family="'Courier New', monospace" font-size="52" font-weight="bold" fill="#00ff41" opacity="0" filter="url(#glow-g)" letter-spacing="8px">
-    NAGENDHRA
-    <animate attributeName="opacity" values="0;0.15" dur="0.6s" begin="2.5s" fill="freeze"/>
-  </text>
-
-  <!-- Decorative line under name -->
-  <line x1="200" y1="225" x2="640" y2="225" stroke="url(#lineGrad)" stroke-width="1" opacity="0">
-    <animate attributeName="opacity" from="0" to="0.6" dur="0.4s" begin="3.1s" fill="freeze"/>
-  </line>
-
-  <!-- Title -->
-  <text x="420" y="252" text-anchor="middle" font-family="'Courier New', monospace" font-size="15" fill="#00d4ff" filter="url(#glow-c)" letter-spacing="4px" opacity="0">
-    AI ENGINEER  //  SYSTEMS ARCHITECT
-    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="3.3s" fill="freeze"/>
-  </text>
-
-  <!-- OpenClaw line with pink accent -->
-  <line x1="220" y1="268" x2="620" y2="268" stroke="url(#lineGrad2)" stroke-width="0.5" opacity="0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="3.8s" fill="freeze"/>
-  </line>
-  <text x="420" y="285" text-anchor="middle" font-family="'Courier New', monospace" font-size="12" fill="#ff00aa" font-weight="bold" filter="url(#glow-m)" letter-spacing="2px" opacity="0">
-    BUILDING OPENCLAW // NO LLM CALLS // USERS TEACH IT
-    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="4s" fill="freeze"/>
-    <animate attributeName="opacity" values="1;0.6;1" dur="3s" begin="4.5s" repeatCount="indefinite"/>
-  </text>
-
-  <!-- ===== STATS ROW ===== -->
-  <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.6s" begin="4.5s" fill="freeze"/>
-
-    <!-- Stat divider line -->
-    <line x1="150" y1="305" x2="690" y2="305" stroke="#00ff41" stroke-width="0.3" stroke-opacity="0.2"/>
-
-    <!-- Stat: REPOS -->
-    <text x="185" y="325" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" fill="#556677" letter-spacing="2px">REPOS</text>
-    <text x="185" y="345" text-anchor="middle" font-family="'Courier New', monospace" font-size="20" fill="#00ff41" font-weight="bold" filter="url(#glow-g)">12</text>
-
-    <!-- Stat: STARS -->
-    <text x="295" y="325" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" fill="#556677" letter-spacing="2px">STARS</text>
-    <text x="295" y="345" text-anchor="middle" font-family="'Courier New', monospace" font-size="20" fill="#ffd700" font-weight="bold" filter="url(#glow-gold)">42+</text>
-
-    <!-- Stat: EXPERIENCE -->
-    <text x="405" y="325" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" fill="#556677" letter-spacing="2px">EXPERIENCE</text>
-    <text x="405" y="345" text-anchor="middle" font-family="'Courier New', monospace" font-size="20" fill="#00d4ff" font-weight="bold" filter="url(#glow-c)">4+ YRS</text>
-
-    <!-- Stat: PREV -->
-    <text x="530" y="325" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" fill="#556677" letter-spacing="2px">PREVIOUS</text>
-    <text x="530" y="345" text-anchor="middle" font-family="'Courier New', monospace" font-size="20" fill="#ff00aa" font-weight="bold" filter="url(#glow-m)">GOLDMAN</text>
-
-    <!-- Stat: LOCATION -->
-    <text x="655" y="325" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" fill="#556677" letter-spacing="2px">LOCATION</text>
-    <text x="655" y="345" text-anchor="middle" font-family="'Courier New', monospace" font-size="20" fill="#a855f7" font-weight="bold">NYC</text>
+  <!-- BOT 4: Router (Cyan) -->
+  <g style="animation: walk 1s ease-in-out infinite">
+    <rect x="555" y="72" width="115" height="65" rx="12" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+    <!-- Bot face - router bot -->
+    <circle cx="585" cy="97" r="16" fill="#a7f3d0"/>
+    <circle cx="579" cy="93" r="3" fill="#047857"><animate attributeName="cx" values="579;581;579" dur="1s" repeatCount="indefinite"/></circle>
+    <circle cx="591" cy="93" r="3" fill="#047857"><animate attributeName="cx" values="591;589;591" dur="1s" repeatCount="indefinite"/></circle>
+    <path d="M580,102 Q585,106 590,102" fill="none" stroke="#047857" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Signal waves -->
+    <path d="M601,87 Q606,84 601,81" fill="none" stroke="#34d399" stroke-width="1" opacity="0.5"><animate attributeName="opacity" values="0.5;0;0.5" dur="1s" repeatCount="indefinite"/></path>
+    <path d="M604,89 Q611,84 604,79" fill="none" stroke="#34d399" stroke-width="1" opacity="0.3"><animate attributeName="opacity" values="0.3;0;0.3" dur="1s" repeatCount="indefinite" begin="0.3s"/></path>
+    <text class="label" x="637" y="93" text-anchor="middle" fill="#047857">ROUTER</text>
+    <text class="label" x="637" y="103" text-anchor="middle" fill="#047857">AGENT</text>
+    <text class="tool-label" x="612" y="128" text-anchor="middle" fill="#10b981">semantic routing</text>
   </g>
 
-  <!-- Bottom divider -->
-  <line x1="130" y1="365" x2="710" y2="365" stroke="url(#lineGrad)" stroke-width="0.5" opacity="0">
-    <animate attributeName="opacity" from="0" to="0.4" dur="0.5s" begin="5s" fill="freeze"/>
-  </line>
-
-  <!-- Terminal prompt -->
-  <g opacity="0">
-    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="5.2s" fill="freeze"/>
-    <text x="140" y="380" font-family="'Courier New', monospace" font-size="11" fill="#556677">nagendhra@ai:~$</text>
-    <text x="310" y="380" font-family="'Courier New', monospace" font-size="11" fill="#00ff41" filter="url(#glow-g)">./init --mode=build --target=openclaw</text>
-    <rect x="605" y="369" width="8" height="14" fill="#00ff41">
-      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
-    </rect>
+  <!-- BOT 5: Orchestrator (Orange) -->
+  <g style="animation: bounce 1.3s ease-in-out infinite">
+    <rect x="725" y="72" width="105" height="65" rx="12" fill="#fff7ed" stroke="#f97316" stroke-width="1.5"/>
+    <circle cx="755" cy="97" r="16" fill="#fed7aa"/>
+    <circle cx="749" cy="93" r="3" fill="#c2410c"/>
+    <circle cx="761" cy="93" r="3" fill="#c2410c"/>
+    <path d="M748,102 Q755,108 762,102" fill="none" stroke="#c2410c" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Crown/star -->
+    <polygon points="755,76 757,80 761,80 758,83 759,87 755,85 751,87 752,83 749,80 753,80" fill="#fb923c" opacity="0.6"><animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/></polygon>
+    <text class="label" x="793" y="93" text-anchor="middle" fill="#c2410c">ORCH-</text>
+    <text class="label" x="793" y="103" text-anchor="middle" fill="#c2410c">ESTRATOR</text>
+    <text class="tool-label" x="777" y="128" text-anchor="middle" fill="#f97316">LangGraph state</text>
   </g>
 
-  <!-- Footer -->
-  <text x="420" y="488" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#0a2a0a" letter-spacing="3px" opacity="0">
-    IDENTITY MATRIX v3.0 // github.com/Nagendhra-web // ALL SYSTEMS NOMINAL
-    <animate attributeName="opacity" from="0" to="0.35" dur="1s" begin="5.5s" fill="freeze"/>
+  <!-- ===== VERTICAL CONNECTORS TO ROW 2 ===== -->
+  <line x1="440" y1="137" x2="440" y2="175" stroke="#6366f1" stroke-width="1" stroke-dasharray="4,3" opacity="0.3"/>
+  <circle cx="440" cy="160" r="2.5" fill="#6366f1"><animate attributeName="cy" from="140" to="175" dur="1s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1s" repeatCount="indefinite"/></circle>
+
+  <!-- ===== ROW 2: TOOL LAYER ===== -->
+
+  <text class="title" x="425" y="190" text-anchor="middle" font-size="11" fill="#0f766e" letter-spacing="1px">TOOL EXECUTION LAYER</text>
+  <line x1="300" y1="195" x2="550" y2="195" stroke="#99f6e4" stroke-width="0.8"/>
+
+  <!-- Tool 1: Web Search -->
+  <g style="animation: walk 0.9s ease-in-out infinite">
+    <rect x="20" y="208" width="100" height="55" rx="10" fill="#f0fdf4" stroke="#22c55e" stroke-width="1.5"/>
+    <circle cx="45" cy="230" r="12" fill="#bbf7d0"/>
+    <circle cx="43" cy="227" r="2" fill="#15803d"/>
+    <circle cx="49" cy="227" r="2" fill="#15803d"/>
+    <path d="M41,234 Q45,237 49,234" fill="none" stroke="#15803d" stroke-width="1.2"/>
+    <!-- Search icon -->
+    <circle cx="57" cy="218" r="4" fill="none" stroke="#22c55e" stroke-width="1.2"/>
+    <line x1="60" y1="221" x2="63" y2="224" stroke="#22c55e" stroke-width="1.2"/>
+    <text class="tool-label" x="70" y="240" text-anchor="middle" fill="#15803d">SEARCH</text>
+    <text class="tool-label" x="70" y="256" text-anchor="middle" fill="#22c55e">Tavily / Serper</text>
+  </g>
+
+  <!-- Tool 2: Code Exec -->
+  <g style="animation: float 1.1s ease-in-out infinite">
+    <rect x="130" y="208" width="100" height="55" rx="10" fill="#fdf4ff" stroke="#d946ef" stroke-width="1.5"/>
+    <circle cx="155" cy="230" r="12" fill="#f5d0fe"/>
+    <circle cx="151" cy="227" r="2" fill="#86198f"/>
+    <circle cx="159" cy="227" r="2" fill="#86198f"/>
+    <path d="M152,234 L158,234" fill="none" stroke="#86198f" stroke-width="1.2"/>
+    <!-- Code brackets -->
+    <text x="170" y="222" font-family="'Courier New', monospace" font-size="10" fill="#d946ef" font-weight="bold">{}</text>
+    <text class="tool-label" x="180" y="240" text-anchor="middle" fill="#86198f">CODE</text>
+    <text class="tool-label" x="180" y="256" text-anchor="middle" fill="#d946ef">Python / Bash</text>
+  </g>
+
+  <!-- Tool 3: RAG / Retrieval -->
+  <g style="animation: bounce 1.4s ease-in-out infinite">
+    <rect x="240" y="208" width="100" height="55" rx="10" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+    <circle cx="265" cy="230" r="12" fill="#bfdbfe"/>
+    <circle cx="261" cy="227" r="2" fill="#1e40af"/>
+    <circle cx="269" cy="227" r="2" fill="#1e40af"/>
+    <path d="M261,234 Q265,238 269,234" fill="none" stroke="#1e40af" stroke-width="1.2"/>
+    <!-- Book/doc icon -->
+    <rect x="279" y="218" width="8" height="10" rx="1" fill="none" stroke="#3b82f6" stroke-width="1.2"/>
+    <line x1="281" y1="221" x2="285" y2="221" stroke="#3b82f6" stroke-width="0.8"/>
+    <line x1="281" y1="224" x2="285" y2="224" stroke="#3b82f6" stroke-width="0.8"/>
+    <text class="tool-label" x="290" y="240" text-anchor="middle" fill="#1e40af">RAG</text>
+    <text class="tool-label" x="290" y="256" text-anchor="middle" fill="#3b82f6">FAISS / Pinecone</text>
+  </g>
+
+  <!-- Tool 4: API Calls -->
+  <g style="animation: walk 1.2s ease-in-out infinite">
+    <rect x="350" y="208" width="100" height="55" rx="10" fill="#fefce8" stroke="#eab308" stroke-width="1.5"/>
+    <circle cx="375" cy="230" r="12" fill="#fef08a"/>
+    <circle cx="371" cy="227" r="2" fill="#854d0e"/>
+    <circle cx="379" cy="227" r="2" fill="#854d0e"/>
+    <path d="M371,234 Q375,237 379,234" fill="none" stroke="#854d0e" stroke-width="1.2"/>
+    <!-- Lightning bolt -->
+    <polygon points="392,216 389,224 393,224 390,232" fill="#eab308" opacity="0.7"/>
+    <text class="tool-label" x="400" y="240" text-anchor="middle" fill="#854d0e">APIs</text>
+    <text class="tool-label" x="400" y="256" text-anchor="middle" fill="#eab308">REST / GraphQL</text>
+  </g>
+
+  <!-- Tool 5: Browser -->
+  <g style="animation: float 1s ease-in-out infinite">
+    <rect x="460" y="208" width="100" height="55" rx="10" fill="#fff1f2" stroke="#f43f5e" stroke-width="1.5"/>
+    <circle cx="485" cy="230" r="12" fill="#fecdd3"/>
+    <circle cx="481" cy="227" r="2" fill="#be123c"/>
+    <circle cx="489" cy="227" r="2" fill="#be123c"/>
+    <path d="M481,234 Q485,238 489,234" fill="none" stroke="#be123c" stroke-width="1.2"/>
+    <!-- Browser icon -->
+    <rect x="499" y="218" width="10" height="8" rx="1.5" fill="none" stroke="#f43f5e" stroke-width="1.2"/>
+    <line x1="499" y1="221" x2="509" y2="221" stroke="#f43f5e" stroke-width="0.8"/>
+    <text class="tool-label" x="510" y="240" text-anchor="middle" fill="#be123c">BROWSER</text>
+    <text class="tool-label" x="510" y="256" text-anchor="middle" fill="#f43f5e">Playwright / MCP</text>
+  </g>
+
+  <!-- Tool 6: File System -->
+  <g style="animation: bounce 0.9s ease-in-out infinite">
+    <rect x="570" y="208" width="100" height="55" rx="10" fill="#f0fdfa" stroke="#14b8a6" stroke-width="1.5"/>
+    <circle cx="595" cy="230" r="12" fill="#99f6e4"/>
+    <circle cx="591" cy="227" r="2" fill="#0f766e"/>
+    <circle cx="599" cy="227" r="2" fill="#0f766e"/>
+    <path d="M592,234 Q595,236 598,234" fill="none" stroke="#0f766e" stroke-width="1.2"/>
+    <!-- Folder icon -->
+    <path d="M609,219 L609,228 L620,228 L620,222 L615,222 L614,219 Z" fill="none" stroke="#14b8a6" stroke-width="1.2"/>
+    <text class="tool-label" x="620" y="240" text-anchor="middle" fill="#0f766e">FILES</text>
+    <text class="tool-label" x="620" y="256" text-anchor="middle" fill="#14b8a6">Read / Write / Edit</text>
+  </g>
+
+  <!-- Tool 7: Database -->
+  <g style="animation: walk 1.3s ease-in-out infinite">
+    <rect x="680" y="208" width="100" height="55" rx="10" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+    <circle cx="705" cy="230" r="12" fill="#fde68a"/>
+    <circle cx="701" cy="227" r="2" fill="#92400e"/>
+    <circle cx="709" cy="227" r="2" fill="#92400e"/>
+    <path d="M701,234 Q705,238 709,234" fill="none" stroke="#92400e" stroke-width="1.2"/>
+    <!-- DB icon -->
+    <ellipse cx="725" cy="220" rx="6" ry="3" fill="none" stroke="#f59e0b" stroke-width="1.2"/>
+    <line x1="719" y1="220" x2="719" y2="228" stroke="#f59e0b" stroke-width="1.2"/>
+    <line x1="731" y1="220" x2="731" y2="228" stroke="#f59e0b" stroke-width="1.2"/>
+    <ellipse cx="725" cy="228" rx="6" ry="3" fill="none" stroke="#f59e0b" stroke-width="1.2"/>
+    <text class="tool-label" x="730" y="240" text-anchor="middle" fill="#92400e">DATABASE</text>
+    <text class="tool-label" x="730" y="256" text-anchor="middle" fill="#f59e0b">SQL / Vector DB</text>
+  </g>
+
+  <!-- ===== VERTICAL CONNECTORS TO ROW 3 ===== -->
+  <line x1="425" y1="263" x2="425" y2="300" stroke="#ec4899" stroke-width="1" stroke-dasharray="4,3" opacity="0.3"/>
+  <circle cx="425" cy="280" r="2.5" fill="#ec4899"><animate attributeName="cy" from="265" to="300" dur="1s" repeatCount="indefinite" begin="0.5s"/><animate attributeName="opacity" values="0;1;0" dur="1s" repeatCount="indefinite" begin="0.5s"/></circle>
+
+  <!-- ===== ROW 3: MEMORY + GUARDRAILS + OUTPUT ===== -->
+
+  <text class="title" x="425" y="315" text-anchor="middle" font-size="11" fill="#be185d" letter-spacing="1px">MEMORY, SAFETY &amp; OUTPUT</text>
+  <line x1="300" y1="320" x2="550" y2="320" stroke="#fda4af" stroke-width="0.8"/>
+
+  <!-- Connection pipes Row 3 -->
+  <rect x="155" y="356" width="40" height="4" rx="2" fill="url(#pipe3)" opacity="0.5"/>
+  <circle cx="160" cy="358" r="3" fill="#f472b6"><animate attributeName="cx" from="155" to="195" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;1;0" dur="1.2s" repeatCount="indefinite"/></circle>
+
+  <rect x="310" y="356" width="40" height="4" rx="2" fill="url(#pipe3)" opacity="0.5"/>
+  <circle cx="315" cy="358" r="3" fill="#f472b6"><animate attributeName="cx" from="310" to="350" dur="1.2s" repeatCount="indefinite" begin="0.3s"/><animate attributeName="opacity" values="0;1;0" dur="1.2s" repeatCount="indefinite" begin="0.3s"/></circle>
+
+  <rect x="470" y="356" width="40" height="4" rx="2" fill="url(#pipe2)" opacity="0.5"/>
+  <circle cx="475" cy="358" r="3" fill="#34d399"><animate attributeName="cx" from="470" to="510" dur="1.2s" repeatCount="indefinite" begin="0.6s"/><animate attributeName="opacity" values="0;1;0" dur="1.2s" repeatCount="indefinite" begin="0.6s"/></circle>
+
+  <rect x="630" y="356" width="40" height="4" rx="2" fill="url(#pipe2)" opacity="0.5"/>
+  <circle cx="635" cy="358" r="3" fill="#34d399"><animate attributeName="cx" from="630" to="670" dur="1.2s" repeatCount="indefinite" begin="0.9s"/><animate attributeName="opacity" values="0;1;0" dur="1.2s" repeatCount="indefinite" begin="0.9s"/></circle>
+
+  <!-- Memory Bot -->
+  <g style="animation: float 1.6s ease-in-out infinite">
+    <rect x="30" y="330" width="125" height="55" rx="10" fill="#faf5ff" stroke="#a855f7" stroke-width="1.5"/>
+    <circle cx="55" cy="352" r="12" fill="#e9d5ff"/>
+    <circle cx="51" cy="349" r="2" fill="#6b21a8"/>
+    <circle cx="59" cy="349" r="2" fill="#6b21a8"/>
+    <path d="M50,356 Q55,360 60,356" fill="none" stroke="#6b21a8" stroke-width="1.2"/>
+    <!-- Memory chip -->
+    <rect x="69" y="343" width="8" height="10" rx="1" fill="none" stroke="#a855f7" stroke-width="1.2"/>
+    <line x1="67" y1="346" x2="69" y2="346" stroke="#a855f7" stroke-width="0.8"/>
+    <line x1="67" y1="349" x2="69" y2="349" stroke="#a855f7" stroke-width="0.8"/>
+    <line x1="77" y1="346" x2="79" y2="346" stroke="#a855f7" stroke-width="0.8"/>
+    <line x1="77" y1="349" x2="79" y2="349" stroke="#a855f7" stroke-width="0.8"/>
+    <text class="label" x="110" y="352" text-anchor="middle" fill="#6b21a8">MEMORY</text>
+    <text class="tool-label" x="95" y="378" text-anchor="middle" fill="#a855f7">ChromaDB / Redis</text>
+  </g>
+
+  <!-- Guardrails Bot -->
+  <g style="animation: bounce 1.1s ease-in-out infinite">
+    <rect x="195" y="330" width="115" height="55" rx="10" fill="#fff1f2" stroke="#e11d48" stroke-width="1.5"/>
+    <circle cx="220" cy="352" r="12" fill="#fecdd3"/>
+    <circle cx="216" cy="349" r="2" fill="#9f1239"/>
+    <circle cx="224" cy="349" r="2" fill="#9f1239"/>
+    <path d="M216,356 L224,356" fill="none" stroke="#9f1239" stroke-width="1.2"/>
+    <!-- Shield -->
+    <path d="M236,341 L236,350 Q236,355 240,357 Q244,355 244,350 L244,341 L240,339 Z" fill="none" stroke="#e11d48" stroke-width="1.2"/>
+    <text class="label" x="272" y="352" text-anchor="middle" fill="#9f1239">GUARD</text>
+    <text class="tool-label" x="252" y="378" text-anchor="middle" fill="#e11d48">NeMo / Guardrails</text>
+  </g>
+
+  <!-- Evaluator Bot -->
+  <g style="animation: walk 1.4s ease-in-out infinite">
+    <rect x="350" y="330" width="120" height="55" rx="10" fill="#ecfdf5" stroke="#059669" stroke-width="1.5"/>
+    <circle cx="375" cy="352" r="12" fill="#a7f3d0"/>
+    <circle cx="371" cy="349" r="2" fill="#065f46"/>
+    <circle cx="379" cy="349" r="2" fill="#065f46"/>
+    <path d="M371,356 Q375,360 379,356" fill="none" stroke="#065f46" stroke-width="1.2"/>
+    <!-- Checkmark -->
+    <path d="M393,348 L396,352 L402,344" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round"/>
+    <text class="label" x="432" y="349" text-anchor="middle" fill="#065f46">EVAL</text>
+    <text class="label" x="432" y="359" text-anchor="middle" fill="#065f46">AGENT</text>
+    <text class="tool-label" x="410" y="378" text-anchor="middle" fill="#059669">LangSmith / Arize</text>
+  </g>
+
+  <!-- Human-in-Loop Bot -->
+  <g style="animation: float 1.2s ease-in-out infinite">
+    <rect x="510" y="330" width="120" height="55" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="1.5"/>
+    <circle cx="535" cy="352" r="12" fill="#fed7aa"/>
+    <circle cx="531" cy="349" r="2" fill="#9a3412"/>
+    <circle cx="539" cy="349" r="2" fill="#9a3412"/>
+    <path d="M530,356 Q535,360 540,356" fill="none" stroke="#9a3412" stroke-width="1.2"/>
+    <!-- Hand/human icon -->
+    <circle cx="551" cy="346" r="5" fill="none" stroke="#ea580c" stroke-width="1.2"/>
+    <line x1="551" y1="351" x2="551" y2="358" stroke="#ea580c" stroke-width="1.2"/>
+    <text class="label" x="592" y="349" text-anchor="middle" fill="#9a3412">HUMAN</text>
+    <text class="label" x="592" y="359" text-anchor="middle" fill="#9a3412">IN LOOP</text>
+    <text class="tool-label" x="570" y="378" text-anchor="middle" fill="#ea580c">approve / reject</text>
+  </g>
+
+  <!-- Output Bot -->
+  <g style="animation: bounce 1.5s ease-in-out infinite">
+    <rect x="670" y="330" width="115" height="55" rx="10" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+    <circle cx="695" cy="352" r="12" fill="#bbf7d0"/>
+    <circle cx="691" cy="349" r="2.5" fill="#166534"><animate attributeName="r" values="2.5;3;2.5" dur="1s" repeatCount="indefinite"/></circle>
+    <circle cx="699" cy="349" r="2.5" fill="#166534"><animate attributeName="r" values="2.5;3;2.5" dur="1s" repeatCount="indefinite" begin="0.2s"/></circle>
+    <path d="M690,356 Q695,361 700,356" fill="none" stroke="#166534" stroke-width="1.5"/>
+    <!-- Sparkle -->
+    <polygon points="713,343 714,347 718,348 714,349 713,353 712,349 708,348 712,347" fill="#16a34a" opacity="0.6"><animate attributeName="opacity" values="0.4;1;0.4" dur="1.5s" repeatCount="indefinite"/></polygon>
+    <text class="label" x="750" y="349" text-anchor="middle" fill="#166534">OUTPUT</text>
+    <text class="label" x="750" y="359" text-anchor="middle" fill="#166534">ACTION</text>
+    <text class="tool-label" x="727" y="378" text-anchor="middle" fill="#16a34a">response / action</text>
+  </g>
+
+  <!-- ===== FEEDBACK LOOP ARROW ===== -->
+  <path d="M780,358 Q810,358 810,250 Q810,145 780,105" fill="none" stroke="#f97316" stroke-width="1.5" stroke-dasharray="6,4" opacity="0.35"/>
+  <polygon points="780,100 785,108 775,108" fill="#f97316" opacity="0.5"/>
+  <text x="818" y="235" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#f97316" transform="rotate(90, 818, 235)" opacity="0.5">FEEDBACK LOOP</text>
+
+  <!-- ===== ROW LABELS on left ===== -->
+  <text x="12" y="105" font-family="'Courier New', monospace" font-size="7" fill="#6366f1" transform="rotate(-90, 12, 105)" opacity="0.4" letter-spacing="1px">REASONING</text>
+  <text x="12" y="240" font-family="'Courier New', monospace" font-size="7" fill="#10b981" transform="rotate(-90, 12, 240)" opacity="0.4" letter-spacing="1px">TOOLS</text>
+  <text x="12" y="360" font-family="'Courier New', monospace" font-size="7" fill="#ec4899" transform="rotate(-90, 12, 360)" opacity="0.4" letter-spacing="1px">SAFETY</text>
+
+  <!-- ===== BOTTOM: INFRASTRUCTURE BAR ===== -->
+  <rect x="30" y="400" width="790" height="38" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="50" y="422" font-family="'Courier New', monospace" font-size="8" fill="#64748b" font-weight="600" letter-spacing="1px">INFRA:</text>
+
+  <!-- Infra badges -->
+  <rect x="95" y="410" width="55" height="18" rx="9" fill="#dbeafe"/><text x="122" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#1e40af" font-weight="600">Docker</text>
+  <rect x="158" y="410" width="40" height="18" rx="9" fill="#fae8ff"/><text x="178" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#86198f" font-weight="600">K8s</text>
+  <rect x="206" y="410" width="40" height="18" rx="9" fill="#dcfce7"/><text x="226" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#166534" font-weight="600">GCP</text>
+  <rect x="254" y="410" width="40" height="18" rx="9" fill="#fef9c3"/><text x="274" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#854d0e" font-weight="600">AWS</text>
+  <rect x="302" y="410" width="50" height="18" rx="9" fill="#e0e7ff"/><text x="327" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#3730a3" font-weight="600">Azure</text>
+  <rect x="360" y="410" width="55" height="18" rx="9" fill="#ccfbf1"/><text x="387" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#0f766e" font-weight="600">FastAPI</text>
+  <rect x="423" y="410" width="55" height="18" rx="9" fill="#fce7f3"/><text x="450" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#9d174d" font-weight="600">CI/CD</text>
+  <rect x="486" y="410" width="65" height="18" rx="9" fill="#dbeafe"/><text x="518" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#1e40af" font-weight="600">LangSmith</text>
+  <rect x="559" y="410" width="65" height="18" rx="9" fill="#f5f3ff"/><text x="591" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#5b21b6" font-weight="600">Prometheus</text>
+  <rect x="632" y="410" width="50" height="18" rx="9" fill="#fef3c7"/><text x="657" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#92400e" font-weight="600">Kafka</text>
+  <rect x="690" y="410" width="55" height="18" rx="9" fill="#dcfce7"/><text x="717" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#166534" font-weight="600">Airflow</text>
+  <rect x="753" y="410" width="55" height="18" rx="9" fill="#e0e7ff"/><text x="780" y="422" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#3730a3" font-weight="600">Redis</text>
+
+  <!-- ===== BOTTOM FOOTER ===== -->
+  <text x="425" y="468" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#94a3b8" letter-spacing="1px">
+    The complete agentic AI pipeline — from user intent to autonomous action
   </text>
 </svg>
