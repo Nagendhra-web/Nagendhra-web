@@ -1,6 +1,10 @@
 <div align="center">
 
-<img src="header.svg" alt="Developer at work — ideas floating from the screen" width="850"/>
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&pause=1000&color=00FF41&center=true&vCenter=true&random=false&width=750&lines=AI+Engineer+%7C+Agentic+Systems+Builder;Ex-Goldman+Sachs+%7C+MS+%40+SUNY+Albany;LangGraph+%2B+FastAPI+%2B+Go+%2B+React;Open+Source+Contributor+%7C+NYC" alt="Typing SVG" /></a>
+
+<br/>
+
+*Hello, I build things that I imagine.*
 
 </div>
 
