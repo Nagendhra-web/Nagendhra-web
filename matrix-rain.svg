@@ -1,0 +1,329 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" width="800" height="450">
+  <defs>
+    <filter id="glow-g" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-c" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-r" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-gold" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="bg" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" style="stop-color:#0a1a0a"/><stop offset="100%" style="stop-color:#020802"/>
+    </radialGradient>
+    <linearGradient id="nameGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00ff41"/><stop offset="40%" style="stop-color:#00ffaa"/><stop offset="70%" style="stop-color:#00d4ff"/><stop offset="100%" style="stop-color:#ff00aa"/>
+    </linearGradient>
+    <linearGradient id="fadeDown" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff41;stop-opacity:1"/><stop offset="100%" style="stop-color:#00ff41;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    .bg { fill: url(#bg); }
+    .rain { font-family: 'Courier New', monospace; font-size: 11px; fill: #00ff41; }
+    .rain-dim { font-family: 'Courier New', monospace; font-size: 11px; fill: #004d14; }
+    .rain-bright { font-family: 'Courier New', monospace; font-size: 11px; fill: #00ff41; filter: url(#glow-g); }
+    .rain-head { font-family: 'Courier New', monospace; font-size: 11px; fill: #aaffaa; filter: url(#glow-g); }
+    .name-char { font-family: 'Courier New', monospace; font-weight: bold; fill: url(#nameGrad); filter: url(#glow-c); }
+    .title-text { font-family: 'Courier New', monospace; fill: #00d4ff; filter: url(#glow-c); }
+    .openclaw-text { font-family: 'Courier New', monospace; fill: #ff00aa; font-weight: bold; filter: url(#glow-r); }
+    .stat-text { font-family: 'Courier New', monospace; font-size: 10px; fill: #00ff41; }
+    .bracket { font-family: 'Courier New', monospace; fill: #00ff41; opacity: 0.6; }
+    .scanline { fill: rgba(0,255,65,0.015); }
+
+    @keyframes fall1 { 0% { transform: translateY(-460px); } 100% { transform: translateY(460px); } }
+    @keyframes fall2 { 0% { transform: translateY(-500px); } 100% { transform: translateY(500px); } }
+    @keyframes fall3 { 0% { transform: translateY(-420px); } 100% { transform: translateY(420px); } }
+    @keyframes flicker { 0%,100% { opacity: 0.15; } 50% { opacity: 0.4; } }
+    @keyframes pulse { 0%,100% { opacity: 0.7; } 50% { opacity: 1; } }
+    @keyframes nameReveal { 0% { opacity: 0; transform: scale(0.8); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes cursorBlink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+    @keyframes scanDown { 0% { transform: translateY(0); } 100% { transform: translateY(450px); } }
+    @keyframes glitchShift { 0%,90%,100% { transform: translate(0,0); } 92% { transform: translate(-2px,1px); } 94% { transform: translate(2px,-1px); } 96% { transform: translate(-1px,2px); } 98% { transform: translate(1px,-1px); } }
+    @keyframes charDrop { 0% { opacity: 0; transform: translateY(-20px); } 60% { opacity: 1; transform: translateY(3px); } 100% { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInSlow { 0% { opacity: 0; } 100% { opacity: 1; } }
+    @keyframes lockFlash { 0% { fill: #ffffff; filter: url(#glow-c); } 30% { fill: #00ffaa; } 100% { fill: url(#nameGrad); } }
+    @keyframes borderPulse { 0%,100% { stroke-opacity: 0.2; } 50% { stroke-opacity: 0.5; } }
+    @keyframes statSlide { 0% { opacity: 0; transform: translateX(-10px); } 100% { opacity: 1; transform: translateX(0); } }
+  </style>
+
+  <!-- Background -->
+  <rect class="bg" width="800" height="450" rx="8"/>
+
+  <!-- Pulsing border -->
+  <rect x="1" y="1" width="798" height="448" rx="8" fill="none" stroke="#00ff41" stroke-width="0.8">
+    <animate attributeName="stroke-opacity" values="0.2;0.5;0.2" dur="3s" repeatCount="indefinite"/>
+  </rect>
+
+  <!-- Scanlines -->
+  <g opacity="0.4">
+    <rect y="0" width="800" height="1" class="scanline"><animate attributeName="y" from="0" to="450" dur="4s" repeatCount="indefinite"/></rect>
+    <rect y="0" width="800" height="1" class="scanline"><animate attributeName="y" from="0" to="450" dur="4s" begin="2s" repeatCount="indefinite"/></rect>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- MATRIX RAIN COLUMNS - Your real tech keywords -->
+  <!-- ============================================ -->
+
+  <!-- Column 1: x=15 -->
+  <g class="rain-dim" opacity="0.3">
+    <text x="15" y="0"><animate attributeName="y" from="-200" to="650" dur="6s" repeatCount="indefinite" begin="0s"/>LangGraph</text>
+    <text x="15" y="0"><animate attributeName="y" from="-350" to="650" dur="6s" repeatCount="indefinite" begin="3s"/>async</text>
+  </g>
+
+  <!-- Column 2: x=70 -->
+  <g class="rain" opacity="0.25">
+    <text x="70" y="0"><animate attributeName="y" from="-100" to="650" dur="7s" repeatCount="indefinite" begin="0.5s"/>FastAPI</text>
+    <text x="70" y="0"><animate attributeName="y" from="-400" to="650" dur="7s" repeatCount="indefinite" begin="3.5s"/>embed</text>
+  </g>
+
+  <!-- Column 3: x=125 -->
+  <g class="rain-dim" opacity="0.35">
+    <text x="125" y="0"><animate attributeName="y" from="-280" to="650" dur="5.5s" repeatCount="indefinite" begin="1s"/>RAG</text>
+    <text x="125" y="0"><animate attributeName="y" from="-80" to="650" dur="5.5s" repeatCount="indefinite" begin="3.8s"/>torch</text>
+  </g>
+
+  <!-- Column 4: x=165 -->
+  <g class="rain" opacity="0.2">
+    <text x="165" y="0"><animate attributeName="y" from="-150" to="650" dur="8s" repeatCount="indefinite" begin="0.3s"/>chromadb</text>
+    <text x="165" y="0"><animate attributeName="y" from="-380" to="650" dur="8s" repeatCount="indefinite" begin="4s"/>query</text>
+  </g>
+
+  <!-- Column 5: x=230 -->
+  <g class="rain-bright" opacity="0.3">
+    <text x="230" y="0"><animate attributeName="y" from="-200" to="650" dur="6.5s" repeatCount="indefinite" begin="1.2s"/>agent</text>
+    <text x="230" y="0"><animate attributeName="y" from="-420" to="650" dur="6.5s" repeatCount="indefinite" begin="4.5s"/>FAISS</text>
+  </g>
+
+  <!-- Column 6: x=280 -->
+  <g class="rain-dim" opacity="0.25">
+    <text x="280" y="0"><animate attributeName="y" from="-320" to="650" dur="7.5s" repeatCount="indefinite" begin="0.8s"/>vector</text>
+    <text x="280" y="0"><animate attributeName="y" from="-100" to="650" dur="7.5s" repeatCount="indefinite" begin="4.2s"/>infer</text>
+  </g>
+
+  <!-- Column 7: x=330 -->
+  <g class="rain" opacity="0.3">
+    <text x="330" y="0"><animate attributeName="y" from="-180" to="650" dur="5.8s" repeatCount="indefinite" begin="0.2s"/>Docker</text>
+    <text x="330" y="0"><animate attributeName="y" from="-400" to="650" dur="5.8s" repeatCount="indefinite" begin="3.2s"/>k8s</text>
+  </g>
+
+  <!-- Column 8: x=385 -->
+  <g class="rain-dim" opacity="0.2">
+    <text x="385" y="0"><animate attributeName="y" from="-250" to="650" dur="6.8s" repeatCount="indefinite" begin="1.5s"/>Python</text>
+    <text x="385" y="0"><animate attributeName="y" from="-50" to="650" dur="6.8s" repeatCount="indefinite" begin="4.8s"/>func</text>
+  </g>
+
+  <!-- Column 9: x=440 -->
+  <g class="rain-bright" opacity="0.25">
+    <text x="440" y="0"><animate attributeName="y" from="-300" to="650" dur="7.2s" repeatCount="indefinite" begin="0.6s"/>OpenAI</text>
+    <text x="440" y="0"><animate attributeName="y" from="-120" to="650" dur="7.2s" repeatCount="indefinite" begin="3.6s"/>pipe</text>
+  </g>
+
+  <!-- Column 10: x=495 -->
+  <g class="rain" opacity="0.3">
+    <text x="495" y="0"><animate attributeName="y" from="-170" to="650" dur="6.2s" repeatCount="indefinite" begin="1.8s"/>Kafka</text>
+    <text x="495" y="0"><animate attributeName="y" from="-390" to="650" dur="6.2s" repeatCount="indefinite" begin="4.3s"/>flow</text>
+  </g>
+
+  <!-- Column 11: x=545 -->
+  <g class="rain-dim" opacity="0.35">
+    <text x="545" y="0"><animate attributeName="y" from="-220" to="650" dur="5.3s" repeatCount="indefinite" begin="0.4s"/>Go</text>
+    <text x="545" y="0"><animate attributeName="y" from="-440" to="650" dur="5.3s" repeatCount="indefinite" begin="2.8s"/>heal</text>
+  </g>
+
+  <!-- Column 12: x=580 -->
+  <g class="rain" opacity="0.2">
+    <text x="580" y="0"><animate attributeName="y" from="-140" to="650" dur="7.8s" repeatCount="indefinite" begin="1.1s"/>React</text>
+    <text x="580" y="0"><animate attributeName="y" from="-360" to="650" dur="7.8s" repeatCount="indefinite" begin="4.6s"/>node</text>
+  </g>
+
+  <!-- Column 13: x=635 -->
+  <g class="rain-bright" opacity="0.3">
+    <text x="635" y="0"><animate attributeName="y" from="-260" to="650" dur="6.6s" repeatCount="indefinite" begin="0.9s"/>GCP</text>
+    <text x="635" y="0"><animate attributeName="y" from="-60" to="650" dur="6.6s" repeatCount="indefinite" begin="3.9s"/>run</text>
+  </g>
+
+  <!-- Column 14: x=675 -->
+  <g class="rain-dim" opacity="0.25">
+    <text x="675" y="0"><animate attributeName="y" from="-190" to="650" dur="5.6s" repeatCount="indefinite" begin="1.4s"/>AWS</text>
+    <text x="675" y="0"><animate attributeName="y" from="-410" to="650" dur="5.6s" repeatCount="indefinite" begin="3.4s"/>svc</text>
+  </g>
+
+  <!-- Column 15: x=720 -->
+  <g class="rain" opacity="0.2">
+    <text x="720" y="0"><animate attributeName="y" from="-340" to="650" dur="7.4s" repeatCount="indefinite" begin="0.7s"/>MLflow</text>
+    <text x="720" y="0"><animate attributeName="y" from="-130" to="650" dur="7.4s" repeatCount="indefinite" begin="4.1s"/>log</text>
+  </g>
+
+  <!-- Column 16: x=770 -->
+  <g class="rain-dim" opacity="0.3">
+    <text x="770" y="0"><animate attributeName="y" from="-210" to="650" dur="6.3s" repeatCount="indefinite" begin="1.6s"/>dbt</text>
+    <text x="770" y="0"><animate attributeName="y" from="-430" to="650" dur="6.3s" repeatCount="indefinite" begin="3.7s"/>sql</text>
+  </g>
+
+  <!-- Extra dim background rain for density -->
+  <g class="rain-dim" opacity="0.12">
+    <text x="45" y="0"><animate attributeName="y" from="-160" to="650" dur="9s" repeatCount="indefinite" begin="2s"/>retrieval</text>
+    <text x="195" y="0"><animate attributeName="y" from="-300" to="650" dur="8.5s" repeatCount="indefinite" begin="2.5s"/>webhook</text>
+    <text x="305" y="0"><animate attributeName="y" from="-100" to="650" dur="9.5s" repeatCount="indefinite" begin="1.8s"/>deploy</text>
+    <text x="460" y="0"><animate attributeName="y" from="-380" to="650" dur="8.8s" repeatCount="indefinite" begin="2.2s"/>stream</text>
+    <text x="610" y="0"><animate attributeName="y" from="-240" to="650" dur="9.2s" repeatCount="indefinite" begin="2.8s"/>index</text>
+    <text x="750" y="0"><animate attributeName="y" from="-150" to="650" dur="8.2s" repeatCount="indefinite" begin="1.3s"/>parse</text>
+    <text x="100" y="0"><animate attributeName="y" from="-370" to="650" dur="10s" repeatCount="indefinite" begin="3s"/>Pinecone</text>
+    <text x="410" y="0"><animate attributeName="y" from="-200" to="650" dur="9.8s" repeatCount="indefinite" begin="2.6s"/>schema</text>
+    <text x="520" y="0"><animate attributeName="y" from="-280" to="650" dur="8.6s" repeatCount="indefinite" begin="1.7s"/>spawn</text>
+    <text x="660" y="0"><animate attributeName="y" from="-330" to="650" dur="9.4s" repeatCount="indefinite" begin="2.3s"/>Vertex</text>
+  </g>
+
+  <!-- More faint background keywords -->
+  <g class="rain-dim" opacity="0.08">
+    <text x="30" y="0"><animate attributeName="y" from="-450" to="650" dur="11s" repeatCount="indefinite" begin="0s"/>SageMaker</text>
+    <text x="150" y="0"><animate attributeName="y" from="-200" to="650" dur="10.5s" repeatCount="indefinite" begin="1s"/>Snowflake</text>
+    <text x="260" y="0"><animate attributeName="y" from="-350" to="650" dur="12s" repeatCount="indefinite" begin="2s"/>BigQuery</text>
+    <text x="350" y="0"><animate attributeName="y" from="-180" to="650" dur="11.5s" repeatCount="indefinite" begin="0.5s"/>Airflow</text>
+    <text x="480" y="0"><animate attributeName="y" from="-400" to="650" dur="10.8s" repeatCount="indefinite" begin="1.5s"/>Spark</text>
+    <text x="560" y="0"><animate attributeName="y" from="-250" to="650" dur="11.2s" repeatCount="indefinite" begin="2.5s"/>Redis</text>
+    <text x="700" y="0"><animate attributeName="y" from="-320" to="650" dur="10.2s" repeatCount="indefinite" begin="0.8s"/>Lambda</text>
+  </g>
+
+  <!-- ============================================ -->
+  <!-- CENTER: NAME LOCKS IN FROM THE RAIN          -->
+  <!-- ============================================ -->
+
+  <!-- Dark backdrop for readability -->
+  <rect x="120" y="130" width="560" height="190" rx="6" fill="#020802" fill-opacity="0.85" stroke="#00ff41" stroke-width="0.5" stroke-opacity="0" opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="1s" begin="2s" fill="freeze"/>
+    <animate attributeName="stroke-opacity" from="0" to="0.3" dur="1s" begin="2s" fill="freeze"/>
+  </rect>
+
+  <!-- System boot text -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="0.5" dur="0.3s" begin="2.2s" fill="freeze"/>
+    <text x="140" y="155" font-family="'Courier New', monospace" font-size="9" fill="#00ff41" letter-spacing="2px">
+      SYSTEM BOOT :: IDENTITY MATRIX LOADING...
+    </text>
+  </g>
+
+  <!-- NAME: Each character drops in with a lock-in flash -->
+  <!-- N -->
+  <text class="name-char" font-size="42" x="175" y="215" opacity="0">N
+    <animate attributeName="opacity" from="0" to="1" dur="0.15s" begin="2.8s" fill="freeze"/>
+    <animate attributeName="fill" values="#ffffff;#00ffaa;url(#nameGrad)" dur="0.4s" begin="2.8s" fill="freeze"/>
+  </text>
+  <!-- A -->
+  <text class="name-char" font-size="42" x="205" y="215" opacity="0">A
+    <animate attributeName="opacity" from="0" to="1" dur="0.15s" begin="2.95s" fill="freeze"/>
+    <animate attributeName="fill" values="#ffffff;#00ffaa" dur="0.4s" begin="2.95s" fill="freeze"/>
+  </text>
+  <!-- G -->
+  <text class="name-char" font-size="42" x="235" y="215" opacity="0">G
+    <animate attributeName="opacity" from="0" to="1" dur="0.15s" begin="3.1s" fill="freeze"/>
+    <animate attributeName="fill" values="#ffffff;#00ffaa" dur="0.4s" begin="3.1s" fill="freeze"/>
+  </text>
+  <!-- E -->
+  <text class="name-char" font-size="42" x="265" y="215" opacity="0">E
+    <animate attributeName="opacity" from="0" to="1" dur="0.15s" begin="3.25s" fill="freeze"/>
+    <animate attributeName="fill" values="#ffffff;#00ffaa" dur="0.4s" begin="3.25s" fill="freeze"/>
+  </text>
+  <!-- N -->
+  <text class="name-char" font-size="42" x="295" y="215" opacity="0">N
+    <animate attributeName="opacity" from="0" to="1" dur="0.15s" begin="3.4s" fill="freeze"/>
+    <animate attributeName="fill" values="#ffffff;#00ffaa" dur="0.4s" begin="3.4s" fill="freeze"/>
+  </text>
+  <!-- D -->
+  <text class="name-char" font-size="42" x="325" y="215" opacity="0">D
+    <animate attributeName="opacity" from="0" to="1" dur="0.15s" begin="3.55s" fill="freeze"/>
+    <animate attributeName="fill" values="#ffffff;#00ffaa" dur="0.4s" begin="3.55s" fill="freeze"/>
+  </text>
+  <!-- H -->
+  <text class="name-char" font-size="42" x="355" y="215" opacity="0">H
+    <animate attributeName="opacity" from="0" to="1" dur="0.15s" begin="3.7s" fill="freeze"/>
+    <animate attributeName="fill" values="#ffffff;#00ffaa" dur="0.4s" begin="3.7s" fill="freeze"/>
+  </text>
+  <!-- R -->
+  <text class="name-char" font-size="42" x="385" y="215" opacity="0">R
+    <animate attributeName="opacity" from="0" to="1" dur="0.15s" begin="3.85s" fill="freeze"/>
+    <animate attributeName="fill" values="#ffffff;#00ffaa" dur="0.4s" begin="3.85s" fill="freeze"/>
+  </text>
+  <!-- A -->
+  <text class="name-char" font-size="42" x="415" y="215" opacity="0">A
+    <animate attributeName="opacity" from="0" to="1" dur="0.15s" begin="4.0s" fill="freeze"/>
+    <animate attributeName="fill" values="#ffffff;#00ffaa" dur="0.4s" begin="4.0s" fill="freeze"/>
+  </text>
+
+  <!-- Glitch effect on full name after all chars lock -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.1s" begin="4.3s" fill="freeze"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0;-2,1;2,-1;-1,2;0,0" dur="0.3s" begin="4.3s" fill="freeze"/>
+  </g>
+
+  <!-- Title line -->
+  <text class="title-text" x="400" y="250" text-anchor="middle" font-size="16" letter-spacing="3px" opacity="0">
+    AI  ENGINEER  //  SYSTEMS  ARCHITECT
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="4.5s" fill="freeze"/>
+  </text>
+
+  <!-- OpenClaw line -->
+  <text class="openclaw-text" x="400" y="278" text-anchor="middle" font-size="13" letter-spacing="2px" opacity="0">
+    BUILDING OPENCLAW  //  NO LLM CALLS  //  USERS TEACH IT
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="5s" fill="freeze"/>
+    <animate attributeName="opacity" values="1;0.7;1" dur="2s" begin="5.5s" repeatCount="indefinite"/>
+  </text>
+
+  <!-- Divider line -->
+  <line x1="200" y1="290" x2="600" y2="290" stroke="#00ff41" stroke-width="0.5" stroke-opacity="0" stroke-dasharray="4,4">
+    <animate attributeName="stroke-opacity" from="0" to="0.4" dur="0.5s" begin="5.3s" fill="freeze"/>
+  </line>
+
+  <!-- Stats row -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="5.5s" fill="freeze"/>
+
+    <!-- Stat 1 -->
+    <text class="stat-text" x="185" y="310" text-anchor="middle" fill="#445566">REPOS</text>
+    <text class="stat-text" x="185" y="325" text-anchor="middle" font-size="16" font-weight="bold" fill="#00ff41" filter="url(#glow-g)">12</text>
+
+    <!-- Stat 2 -->
+    <text class="stat-text" x="310" y="310" text-anchor="middle" fill="#445566">STARS</text>
+    <text class="stat-text" x="310" y="325" text-anchor="middle" font-size="16" font-weight="bold" fill="#ffd700" filter="url(#glow-gold)">42+</text>
+
+    <!-- Stat 3 -->
+    <text class="stat-text" x="400" y="310" text-anchor="middle" fill="#445566">EXPERIENCE</text>
+    <text class="stat-text" x="400" y="325" text-anchor="middle" font-size="16" font-weight="bold" fill="#00d4ff" filter="url(#glow-c)">4+ YRS</text>
+
+    <!-- Stat 4 -->
+    <text class="stat-text" x="500" y="310" text-anchor="middle" fill="#445566">PREV</text>
+    <text class="stat-text" x="500" y="325" text-anchor="middle" font-size="16" font-weight="bold" fill="#ff00aa" filter="url(#glow-r)">GS</text>
+
+    <!-- Stat 5 -->
+    <text class="stat-text" x="615" y="310" text-anchor="middle" fill="#445566">LOCATION</text>
+    <text class="stat-text" x="615" y="325" text-anchor="middle" font-size="16" font-weight="bold" fill="#00ff41" filter="url(#glow-g)">NYC</text>
+  </g>
+
+  <!-- Bottom cursor -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="6s" fill="freeze"/>
+    <text x="140" y="350" font-family="'Courier New', monospace" font-size="10" fill="#445566">nagendhra@ai:~$</text>
+    <text x="280" y="350" font-family="'Courier New', monospace" font-size="10" fill="#00ff41">ready</text>
+    <rect x="320" y="340" width="7" height="13" fill="#00ff41">
+      <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+    </rect>
+  </g>
+
+  <!-- Corner brackets -->
+  <polyline points="12,22 12,12 22,12" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.3"/>
+  <polyline points="778,22 778,12 788,12" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.3" transform="translate(0,0)"/>
+  <polyline points="12,428 12,438 22,438" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.3"/>
+  <polyline points="778,428 778,438 788,438" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.3" transform="translate(0,0)"/>
+
+  <!-- Footer -->
+  <text x="400" y="440" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#0a3a0a" letter-spacing="3px" opacity="0">
+    IDENTITY MATRIX v3.0  //  github.com/Nagendhra-web  //  ALL SYSTEMS NOMINAL
+    <animate attributeName="opacity" from="0" to="0.4" dur="1s" begin="6s" fill="freeze"/>
+  </text>
+</svg>

@@ -1,12 +1,7 @@
 <div align="center">
 
-<!-- Sci-Fi Animated Header -->
-<img src="header.svg" alt="Nagendhra Madishetti - AI Engineer" width="800"/>
-
-<br/>
-
-<!-- Animated Tic-Tac-Toe: Two AI Bots Battle -->
-<img src="tictactoe.svg" alt="NEXUS-7 vs CIPHER-9 — Neural Tic-Tac-Toe" width="800"/>
+<!-- Matrix Rain: Your tech keywords fall and lock into your identity -->
+<img src="matrix-rain.svg" alt="Nagendhra Madishetti — Identity Matrix" width="800"/>
 
 <br/>
 
