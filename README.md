@@ -1,7 +1,7 @@
 <div align="center">
 
-<!-- Matrix Rain: Your tech keywords fall and lock into your identity -->
-<img src="matrix-rain.svg" alt="Nagendhra Madishetti — Identity Matrix" width="800"/>
+<!-- Agentic AI Train Station: Bots board the Agent Express -->
+<img src="agent-train.svg" alt="Agentic AI Station — End-to-End Pipeline Express" width="850"/>
 
 <br/>
 

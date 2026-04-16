@@ -1,0 +1,7 @@
+{
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"MSYS_NO_PATHCONV=1 gh api -X PATCH /user -f bio=\\\"AI Engineer | Building OpenClaw (code intelligence without LLMs) | Ex-Goldman Sachs | Open Source\\\" -f location=\\\"New York, NY\\\" -f blog=\\...",
+  "error": "Exit code 1\n{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/users/users#update-the-authenticated-user\",\"status\":\"404\"}gh: Not Found (HTTP 404)\ngh: This API operation needs the \"user\" scope. To request it, run:  gh auth refresh -h github.com -s user",
+  "timestamp": "2026-04-16T00:18:00.663Z",
+  "retry_count": 2
+}
