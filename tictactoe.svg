@@ -1,0 +1,464 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <!-- Sci-fi glow filters -->
+    <filter id="glow-cyan" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-magenta" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-green" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glow-gold" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Scanline pattern -->
+    <pattern id="scanlines" patternUnits="userSpaceOnUse" width="800" height="4">
+      <rect width="800" height="2" fill="rgba(0,255,65,0.03)"/>
+      <rect y="2" width="800" height="2" fill="transparent"/>
+    </pattern>
+    <!-- Grid gradient -->
+    <linearGradient id="gridGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff41;stop-opacity:0.8"/>
+      <stop offset="100%" style="stop-color:#00d4ff;stop-opacity:0.6"/>
+    </linearGradient>
+    <!-- Background gradient -->
+    <radialGradient id="bgGlow" cx="50%" cy="50%" r="60%">
+      <stop offset="0%" style="stop-color:#0a1628;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#050d1a;stop-opacity:1"/>
+    </radialGradient>
+    <!-- Win line gradient -->
+    <linearGradient id="winGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#ffd700;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#ffd700;stop-opacity:0"/>
+    </linearGradient>
+  </defs>
+
+  <style>
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes glitch1 {
+      0%, 100% { transform: translate(0,0); opacity: 1; }
+      10% { transform: translate(-2px, 1px); opacity: 0.8; }
+      20% { transform: translate(2px, -1px); opacity: 1; }
+      30% { transform: translate(0,0); opacity: 1; }
+    }
+    @keyframes glitch2 {
+      0%, 100% { transform: translate(0,0); opacity: 1; }
+      15% { transform: translate(1px, 2px); opacity: 0.7; }
+      25% { transform: translate(-1px, -2px); opacity: 1; }
+      35% { transform: translate(0,0); opacity: 1; }
+    }
+    @keyframes pulse { 0%, 100% { opacity: 0.6; } 50% { opacity: 1; } }
+    @keyframes scanMove { from { transform: translateY(0); } to { transform: translateY(400px); } }
+    @keyframes gridDraw { from { stroke-dashoffset: 220; } to { stroke-dashoffset: 0; } }
+    @keyframes xDraw { from { stroke-dashoffset: 80; } to { stroke-dashoffset: 0; } }
+    @keyframes oDraw { from { stroke-dashoffset: 126; } to { stroke-dashoffset: 0; } }
+    @keyframes winLine { from { stroke-dashoffset: 250; } to { stroke-dashoffset: 0; } }
+    @keyframes dotBlink1 { 0%,20% { opacity: 1; } 21%,100% { opacity: 0.3; } }
+    @keyframes dotBlink2 { 0%,40% { opacity: 0.3; } 41%,60% { opacity: 1; } 61%,100% { opacity: 0.3; } }
+    @keyframes dotBlink3 { 0%,60% { opacity: 0.3; } 61%,80% { opacity: 1; } 81%,100% { opacity: 0.3; } }
+    @keyframes borderPulse { 0%, 100% { stroke-opacity: 0.3; } 50% { stroke-opacity: 0.7; } }
+    @keyframes floatUp { 0% { transform: translateY(0); opacity: 0.15; } 100% { transform: translateY(-400px); opacity: 0; } }
+    @keyframes statusBlink { 0%, 49% { fill: #00ff41; } 50%, 100% { fill: #004d14; } }
+    @keyframes scoreReveal { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+    @keyframes resetFlash {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes headerGlow {
+      0%, 100% { filter: url(#glow-green); opacity: 0.9; }
+      50% { filter: url(#glow-green); opacity: 1; }
+    }
+
+    .bg { fill: url(#bgGlow); }
+    .scanline-overlay { fill: url(#scanlines); }
+    .grid-line { stroke: url(#gridGrad); stroke-width: 2; stroke-linecap: round; fill: none; stroke-dasharray: 220; }
+    .x-mark { stroke: #00d4ff; stroke-width: 3.5; stroke-linecap: round; fill: none; filter: url(#glow-cyan); stroke-dasharray: 80; }
+    .o-mark { stroke: #ff00aa; stroke-width: 3.5; stroke-linecap: round; fill: none; filter: url(#glow-magenta); stroke-dasharray: 126; }
+    .win-line { stroke: #ffd700; stroke-width: 4; stroke-linecap: round; fill: none; filter: url(#glow-gold); stroke-dasharray: 250; }
+    .header-text { font-family: 'Courier New', monospace; fill: #00ff41; font-size: 11px; letter-spacing: 3px; filter: url(#glow-green); }
+    .bot-name { font-family: 'Courier New', monospace; font-size: 13px; font-weight: bold; letter-spacing: 2px; }
+    .bot-label { font-family: 'Courier New', monospace; font-size: 9px; fill: #445566; letter-spacing: 1px; }
+    .vs-text { font-family: 'Courier New', monospace; font-size: 18px; fill: #ffd700; font-weight: bold; filter: url(#glow-gold); }
+    .score-text { font-family: 'Courier New', monospace; font-size: 22px; font-weight: bold; }
+    .status-text { font-family: 'Courier New', monospace; font-size: 9px; fill: #00ff41; letter-spacing: 1px; }
+    .coord-text { font-family: 'Courier New', monospace; font-size: 8px; fill: #1a3a2a; }
+    .particle { fill: #00ff41; opacity: 0.15; }
+    .footer-text { font-family: 'Courier New', monospace; font-size: 8px; fill: #1a3a2a; letter-spacing: 2px; }
+    .thinking-dot { r: 2.5; }
+  </style>
+
+  <!-- Background -->
+  <rect class="bg" width="800" height="400" rx="8"/>
+
+  <!-- Border -->
+  <rect x="1" y="1" width="798" height="398" rx="8" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.3">
+    <animate attributeName="stroke-opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite"/>
+  </rect>
+  <rect x="4" y="4" width="792" height="392" rx="6" fill="none" stroke="#00ff41" stroke-width="0.5" stroke-opacity="0.15"/>
+
+  <!-- Floating particles -->
+  <circle class="particle" cx="100" cy="350" r="1.5"><animate attributeName="cy" from="400" to="0" dur="8s" repeatCount="indefinite"/><animate attributeName="opacity" values="0;0.15;0" dur="8s" repeatCount="indefinite"/></circle>
+  <circle class="particle" cx="250" cy="300" r="1"><animate attributeName="cy" from="400" to="0" dur="12s" repeatCount="indefinite" begin="2s"/><animate attributeName="opacity" values="0;0.1;0" dur="12s" repeatCount="indefinite" begin="2s"/></circle>
+  <circle class="particle" cx="550" cy="200" r="1.5"><animate attributeName="cy" from="400" to="0" dur="10s" repeatCount="indefinite" begin="4s"/><animate attributeName="opacity" values="0;0.12;0" dur="10s" repeatCount="indefinite" begin="4s"/></circle>
+  <circle class="particle" cx="700" cy="280" r="1"><animate attributeName="cy" from="400" to="0" dur="9s" repeatCount="indefinite" begin="1s"/><animate attributeName="opacity" values="0;0.1;0" dur="9s" repeatCount="indefinite" begin="1s"/></circle>
+  <circle class="particle" cx="400" cy="100" r="1.2"><animate attributeName="cy" from="400" to="0" dur="11s" repeatCount="indefinite" begin="3s"/><animate attributeName="opacity" values="0;0.13;0" dur="11s" repeatCount="indefinite" begin="3s"/></circle>
+
+  <!-- Scanline overlay -->
+  <rect class="scanline-overlay" width="800" height="400" opacity="0.5"/>
+
+  <!-- === HEADER === -->
+  <text class="header-text" x="400" y="30" text-anchor="middle" opacity="0">
+    NEURAL LINK ESTABLISHED  //  ADVERSARIAL GAME PROTOCOL v2.7
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.3s" fill="freeze"/>
+  </text>
+
+  <!-- Decorative header lines -->
+  <line x1="80" y1="40" x2="340" y2="40" stroke="#00ff41" stroke-width="0.5" stroke-opacity="0" stroke-dasharray="4,4">
+    <animate attributeName="stroke-opacity" from="0" to="0.3" dur="0.5s" begin="0.5s" fill="freeze"/>
+  </line>
+  <line x1="460" y1="40" x2="720" y2="40" stroke="#00ff41" stroke-width="0.5" stroke-opacity="0" stroke-dasharray="4,4">
+    <animate attributeName="stroke-opacity" from="0" to="0.3" dur="0.5s" begin="0.5s" fill="freeze"/>
+  </line>
+
+  <!-- === LEFT BOT: NEXUS-7 (X) === -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.8s" fill="freeze"/>
+
+    <!-- Bot avatar frame -->
+    <rect x="40" y="60" width="160" height="100" rx="4" fill="none" stroke="#00d4ff" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="42" y="62" width="156" height="96" rx="3" fill="rgba(0,212,255,0.03)"/>
+
+    <!-- Bot icon -->
+    <text x="70" y="95" font-family="'Courier New', monospace" font-size="28" fill="#00d4ff" filter="url(#glow-cyan)">X</text>
+
+    <text class="bot-name" x="100" y="90" fill="#00d4ff" filter="url(#glow-cyan)">NEXUS-7</text>
+    <text class="bot-label" x="100" y="105">QUANTUM STRATEGY ENGINE</text>
+
+    <!-- Status indicator -->
+    <circle cx="55" cy="135" r="3" fill="#00ff41">
+      <animate attributeName="fill" values="#00ff41;#004d14;#00ff41" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+    <text class="status-text" x="65" y="138">ONLINE</text>
+
+    <!-- Thinking dots for NEXUS - show during its turns -->
+    <!-- Turn 1: NEXUS thinks 1.5s-2.5s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;1;0" dur="24s" keyTimes="0;0.0625;0.104" repeatCount="indefinite"/>
+      <circle class="thinking-dot" cx="140" cy="135" fill="#00d4ff"><animate attributeName="opacity" values="1;0.3;1" dur="0.6s" repeatCount="indefinite"/></circle>
+      <circle class="thinking-dot" cx="150" cy="135" fill="#00d4ff"><animate attributeName="opacity" values="0.3;1;0.3" dur="0.6s" repeatCount="indefinite"/></circle>
+      <circle class="thinking-dot" cx="160" cy="135" fill="#00d4ff"><animate attributeName="opacity" values="0.3;0.3;1" dur="0.6s" repeatCount="indefinite"/></circle>
+    </g>
+    <!-- Turn 3: NEXUS thinks 5s-6s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;0;0" dur="24s" keyTimes="0;0.2083;0.2083;0.25;1" repeatCount="indefinite"/>
+      <circle class="thinking-dot" cx="140" cy="135" fill="#00d4ff"><animate attributeName="opacity" values="1;0.3;1" dur="0.6s" repeatCount="indefinite"/></circle>
+      <circle class="thinking-dot" cx="150" cy="135" fill="#00d4ff"><animate attributeName="opacity" values="0.3;1;0.3" dur="0.6s" repeatCount="indefinite"/></circle>
+      <circle class="thinking-dot" cx="160" cy="135" fill="#00d4ff"><animate attributeName="opacity" values="0.3;0.3;1" dur="0.6s" repeatCount="indefinite"/></circle>
+    </g>
+  </g>
+
+  <!-- === VS === -->
+  <text class="vs-text" x="400" y="115" text-anchor="middle" opacity="0">
+    VS
+    <animate attributeName="opacity" from="0" to="1" dur="0.3s" begin="1s" fill="freeze"/>
+  </text>
+
+  <!-- === RIGHT BOT: CIPHER-9 (O) === -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="0.8s" fill="freeze"/>
+
+    <!-- Bot avatar frame -->
+    <rect x="600" y="60" width="160" height="100" rx="4" fill="none" stroke="#ff00aa" stroke-width="1" stroke-opacity="0.4"/>
+    <rect x="602" y="62" width="156" height="96" rx="3" fill="rgba(255,0,170,0.03)"/>
+
+    <!-- Bot icon -->
+    <text x="630" y="95" font-family="'Courier New', monospace" font-size="28" fill="#ff00aa" filter="url(#glow-magenta)">O</text>
+
+    <text class="bot-name" x="660" y="90" fill="#ff00aa" filter="url(#glow-magenta)">CIPHER-9</text>
+    <text class="bot-label" x="660" y="105">ADVERSARIAL NEURAL NET</text>
+
+    <!-- Status indicator -->
+    <circle cx="615" cy="135" r="3" fill="#00ff41">
+      <animate attributeName="fill" values="#00ff41;#004d14;#00ff41" dur="1.5s" repeatCount="indefinite" begin="0.75s"/>
+    </circle>
+    <text class="status-text" x="625" y="138">ONLINE</text>
+
+    <!-- Thinking dots for CIPHER -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;0;0" dur="24s" keyTimes="0;0.125;0.125;0.167;1" repeatCount="indefinite"/>
+      <circle class="thinking-dot" cx="700" cy="135" fill="#ff00aa"><animate attributeName="opacity" values="1;0.3;1" dur="0.6s" repeatCount="indefinite"/></circle>
+      <circle class="thinking-dot" cx="710" cy="135" fill="#ff00aa"><animate attributeName="opacity" values="0.3;1;0.3" dur="0.6s" repeatCount="indefinite"/></circle>
+      <circle class="thinking-dot" cx="720" cy="135" fill="#ff00aa"><animate attributeName="opacity" values="0.3;0.3;1" dur="0.6s" repeatCount="indefinite"/></circle>
+    </g>
+  </g>
+
+  <!-- === SCORE DISPLAY === -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="1.2s" fill="freeze"/>
+    <text class="score-text" x="355" y="95" fill="#00d4ff" text-anchor="end" filter="url(#glow-cyan)">1</text>
+    <text x="400" y="95" text-anchor="middle" font-family="'Courier New', monospace" font-size="16" fill="#445566">:</text>
+    <text class="score-text" x="445" y="95" fill="#ff00aa" text-anchor="start" filter="url(#glow-magenta)">0</text>
+  </g>
+
+  <!-- === GAME BOARD === -->
+  <g transform="translate(295, 170)">
+    <!-- Board background glow -->
+    <rect x="-10" y="-10" width="230" height="230" rx="4" fill="rgba(0,255,65,0.02)"/>
+
+    <!-- Grid coordinates -->
+    <text class="coord-text" x="35" y="-5">A</text>
+    <text class="coord-text" x="105" y="-5">B</text>
+    <text class="coord-text" x="175" y="-5">C</text>
+    <text class="coord-text" x="-12" y="40">1</text>
+    <text class="coord-text" x="-12" y="110">2</text>
+    <text class="coord-text" x="-12" y="180">3</text>
+
+    <!-- Grid lines - animated draw -->
+    <!-- Vertical lines -->
+    <line class="grid-line" x1="70" y1="5" x2="70" y2="205" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.01s" begin="1.5s" fill="freeze"/>
+      <animate attributeName="stroke-dashoffset" from="220" to="0" dur="0.6s" begin="1.5s" fill="freeze"/>
+    </line>
+    <line class="grid-line" x1="140" y1="5" x2="140" y2="205" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.01s" begin="1.7s" fill="freeze"/>
+      <animate attributeName="stroke-dashoffset" from="220" to="0" dur="0.6s" begin="1.7s" fill="freeze"/>
+    </line>
+    <!-- Horizontal lines -->
+    <line class="grid-line" x1="5" y1="70" x2="205" y2="70" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.01s" begin="1.9s" fill="freeze"/>
+      <animate attributeName="stroke-dashoffset" from="220" to="0" dur="0.6s" begin="1.9s" fill="freeze"/>
+    </line>
+    <line class="grid-line" x1="5" y1="140" x2="205" y2="140" opacity="0">
+      <animate attributeName="opacity" from="0" to="1" dur="0.01s" begin="2.1s" fill="freeze"/>
+      <animate attributeName="stroke-dashoffset" from="220" to="0" dur="0.6s" begin="2.1s" fill="freeze"/>
+    </line>
+
+    <!--
+      GAME SEQUENCE (24s total loop):
+      Game 1: NEXUS wins (diagonal)
+        Move 1 (X center):     3s
+        Move 2 (O top-right):  5s
+        Move 3 (X top-left):   7s
+        Move 4 (O bottom-left): 9s
+        Move 5 (X bottom-right): 11s  -> X wins diagonal!
+        Win display:            11.5s - 14s
+
+      Game 2: Reset + CIPHER wins
+        Reset:                  14s
+        Move 6 (O center):     15.5s
+        Move 7 (X top-left):   17s
+        Move 8 (O top-mid):    18.5s
+        Move 9 (X bottom-left): 20s
+        Move 10 (O bottom-mid): 21.5s -> O wins vertical middle!
+        Win display:            22s - 24s
+        Loop restart
+    -->
+
+    <!-- === GAME 1: NEXUS (X) WINS DIAGONAL === -->
+
+    <!-- Move 1: X at center (1,1) - 3s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" dur="24s" keyTimes="0;0.124;0.125;0.583;0.584;1" repeatCount="indefinite"/>
+      <line class="x-mark" x1="90" y1="80" x2="120" y2="130">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="3s" fill="freeze"/>
+      </line>
+      <line class="x-mark" x1="120" y1="80" x2="90" y2="130">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="3.15s" fill="freeze"/>
+      </line>
+    </g>
+
+    <!-- Move 2: O at top-right (0,2) - 5s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" dur="24s" keyTimes="0;0.208;0.208;0.583;0.584;1" repeatCount="indefinite"/>
+      <circle class="o-mark" cx="175" cy="35" r="25">
+        <animate attributeName="stroke-dashoffset" from="126" to="0" dur="0.4s" begin="5s" fill="freeze"/>
+      </circle>
+    </g>
+
+    <!-- Move 3: X at top-left (0,0) - 7s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" dur="24s" keyTimes="0;0.291;0.292;0.583;0.584;1" repeatCount="indefinite"/>
+      <line class="x-mark" x1="20" y1="10" x2="50" y2="60">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="7s" fill="freeze"/>
+      </line>
+      <line class="x-mark" x1="50" y1="10" x2="20" y2="60">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="7.15s" fill="freeze"/>
+      </line>
+    </g>
+
+    <!-- Move 4: O at bottom-left (2,0) - 9s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" dur="24s" keyTimes="0;0.374;0.375;0.583;0.584;1" repeatCount="indefinite"/>
+      <circle class="o-mark" cx="35" cy="175" r="25">
+        <animate attributeName="stroke-dashoffset" from="126" to="0" dur="0.4s" begin="9s" fill="freeze"/>
+      </circle>
+    </g>
+
+    <!-- Move 5: X at bottom-right (2,2) - 11s -> WINS! -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" dur="24s" keyTimes="0;0.458;0.458;0.583;0.584;1" repeatCount="indefinite"/>
+      <line class="x-mark" x1="160" y1="150" x2="190" y2="200">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="11s" fill="freeze"/>
+      </line>
+      <line class="x-mark" x1="190" y1="150" x2="160" y2="200">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="11.15s" fill="freeze"/>
+      </line>
+    </g>
+
+    <!-- Win line Game 1: diagonal top-left to bottom-right -->
+    <line class="win-line" x1="20" y1="20" x2="195" y2="195" opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0;0" dur="24s" keyTimes="0;0.479;0.479;0.583;0.584;1" repeatCount="indefinite"/>
+      <animate attributeName="stroke-dashoffset" from="250" to="0" dur="0.5s" begin="11.5s" fill="freeze"/>
+    </line>
+
+    <!-- === GAME 2: CIPHER (O) WINS VERTICAL MIDDLE === -->
+
+    <!-- Move 6: O at center (1,1) - 15.5s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0" dur="24s" keyTimes="0;0.646;0.646;0.999;1" repeatCount="indefinite"/>
+      <circle class="o-mark" cx="105" cy="105" r="25">
+        <animate attributeName="stroke-dashoffset" from="126" to="0" dur="0.4s" begin="15.5s" fill="freeze"/>
+      </circle>
+    </g>
+
+    <!-- Move 7: X at top-left (0,0) - 17s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0" dur="24s" keyTimes="0;0.708;0.708;0.999;1" repeatCount="indefinite"/>
+      <line class="x-mark" x1="20" y1="10" x2="50" y2="60">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="17s" fill="freeze"/>
+      </line>
+      <line class="x-mark" x1="50" y1="10" x2="20" y2="60">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="17.15s" fill="freeze"/>
+      </line>
+    </g>
+
+    <!-- Move 8: O at top-mid (0,1) - 18.5s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0" dur="24s" keyTimes="0;0.77;0.77;0.999;1" repeatCount="indefinite"/>
+      <circle class="o-mark" cx="105" cy="35" r="25">
+        <animate attributeName="stroke-dashoffset" from="126" to="0" dur="0.4s" begin="18.5s" fill="freeze"/>
+      </circle>
+    </g>
+
+    <!-- Move 9: X at bottom-left (2,0) - 20s -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0" dur="24s" keyTimes="0;0.833;0.833;0.999;1" repeatCount="indefinite"/>
+      <line class="x-mark" x1="20" y1="150" x2="50" y2="200">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="20s" fill="freeze"/>
+      </line>
+      <line class="x-mark" x1="50" y1="150" x2="20" y2="200">
+        <animate attributeName="stroke-dashoffset" from="80" to="0" dur="0.3s" begin="20.15s" fill="freeze"/>
+      </line>
+    </g>
+
+    <!-- Move 10: O at bottom-mid (2,1) - 21.5s -> CIPHER WINS! -->
+    <g opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0" dur="24s" keyTimes="0;0.896;0.896;0.999;1" repeatCount="indefinite"/>
+      <circle class="o-mark" cx="105" cy="175" r="25">
+        <animate attributeName="stroke-dashoffset" from="126" to="0" dur="0.4s" begin="21.5s" fill="freeze"/>
+      </circle>
+    </g>
+
+    <!-- Win line Game 2: vertical middle column -->
+    <line class="win-line" x1="105" y1="10" x2="105" y2="200" opacity="0">
+      <animate attributeName="opacity" values="0;0;1;1;0" dur="24s" keyTimes="0;0.917;0.917;0.999;1" repeatCount="indefinite"/>
+      <animate attributeName="stroke-dashoffset" from="250" to="0" dur="0.5s" begin="22s" fill="freeze"/>
+    </line>
+  </g>
+
+  <!-- === GAME STATUS LOG === -->
+  <g transform="translate(0, 0)">
+    <!-- Left side log -->
+    <text class="status-text" x="40" y="195" opacity="0" fill="#00d4ff">
+      > NEXUS-7: MOVE A1.CENTER
+      <animate attributeName="opacity" values="0;0;0.7;0.7;0;0" dur="24s" keyTimes="0;0.125;0.13;0.583;0.584;1" repeatCount="indefinite"/>
+    </text>
+    <text class="status-text" x="40" y="210" opacity="0" fill="#ff00aa">
+      > CIPHER-9: COUNTER C1.FLANK
+      <animate attributeName="opacity" values="0;0;0.7;0.7;0;0" dur="24s" keyTimes="0;0.21;0.215;0.583;0.584;1" repeatCount="indefinite"/>
+    </text>
+    <text class="status-text" x="40" y="225" opacity="0" fill="#00d4ff">
+      > NEXUS-7: EXECUTE A1.CORNER
+      <animate attributeName="opacity" values="0;0;0.7;0.7;0;0" dur="24s" keyTimes="0;0.292;0.297;0.583;0.584;1" repeatCount="indefinite"/>
+    </text>
+    <text class="status-text" x="40" y="240" opacity="0" fill="#ff00aa">
+      > CIPHER-9: DEFEND C3.BLOCK
+      <animate attributeName="opacity" values="0;0;0.7;0.7;0;0" dur="24s" keyTimes="0;0.375;0.38;0.583;0.584;1" repeatCount="indefinite"/>
+    </text>
+    <text class="status-text" x="40" y="255" opacity="0" fill="#ffd700">
+      > SYS: NEXUS-7 WINS // DIAGONAL
+      <animate attributeName="opacity" values="0;0;1;1;0;0" dur="24s" keyTimes="0;0.479;0.484;0.583;0.584;1" repeatCount="indefinite"/>
+    </text>
+
+    <!-- Right side log - Game 2 -->
+    <text class="status-text" x="575" y="195" opacity="0" fill="#ff00aa">
+      > CIPHER-9: SEIZE CENTER
+      <animate attributeName="opacity" values="0;0;0.7;0.7;0" dur="24s" keyTimes="0;0.646;0.651;0.999;1" repeatCount="indefinite"/>
+    </text>
+    <text class="status-text" x="575" y="210" opacity="0" fill="#00d4ff">
+      > NEXUS-7: COUNTER A1
+      <animate attributeName="opacity" values="0;0;0.7;0.7;0" dur="24s" keyTimes="0;0.71;0.715;0.999;1" repeatCount="indefinite"/>
+    </text>
+    <text class="status-text" x="575" y="225" opacity="0" fill="#ff00aa">
+      > CIPHER-9: EXTEND B1.COL
+      <animate attributeName="opacity" values="0;0;0.7;0.7;0" dur="24s" keyTimes="0;0.771;0.776;0.999;1" repeatCount="indefinite"/>
+    </text>
+    <text class="status-text" x="575" y="240" opacity="0" fill="#00d4ff">
+      > NEXUS-7: DEFEND A3
+      <animate attributeName="opacity" values="0;0;0.7;0.7;0" dur="24s" keyTimes="0;0.834;0.839;0.999;1" repeatCount="indefinite"/>
+    </text>
+    <text class="status-text" x="575" y="255" opacity="0" fill="#ffd700">
+      > SYS: CIPHER-9 WINS // VERTICAL
+      <animate attributeName="opacity" values="0;0;1;1;0" dur="24s" keyTimes="0;0.917;0.922;0.999;1" repeatCount="indefinite"/>
+    </text>
+  </g>
+
+  <!-- === WINNER ANNOUNCEMENT === -->
+  <!-- Game 1 winner -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0;0" dur="24s" keyTimes="0;0.5;0.51;0.57;0.58;1" repeatCount="indefinite"/>
+    <rect x="280" y="280" width="240" height="35" rx="4" fill="rgba(0,212,255,0.1)" stroke="#00d4ff" stroke-width="1"/>
+    <text x="400" y="302" text-anchor="middle" font-family="'Courier New', monospace" font-size="14" fill="#00d4ff" font-weight="bold" filter="url(#glow-cyan)">NEXUS-7 WINS</text>
+  </g>
+  <!-- Game 2 winner -->
+  <g opacity="0">
+    <animate attributeName="opacity" values="0;0;1;1;0" dur="24s" keyTimes="0;0.93;0.94;0.99;1" repeatCount="indefinite"/>
+    <rect x="280" y="280" width="240" height="35" rx="4" fill="rgba(255,0,170,0.1)" stroke="#ff00aa" stroke-width="1"/>
+    <text x="400" y="302" text-anchor="middle" font-family="'Courier New', monospace" font-size="14" fill="#ff00aa" font-weight="bold" filter="url(#glow-magenta)">CIPHER-9 WINS</text>
+  </g>
+
+  <!-- === ROUND INDICATOR === -->
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="2.5s" fill="freeze"/>
+    <!-- Game 1 active -->
+    <text x="400" y="155" text-anchor="middle" font-family="'Courier New', monospace" font-size="10" fill="#445566" letter-spacing="2px" opacity="0">
+      ROUND 1 OF 2
+      <animate attributeName="opacity" values="0;0;1;1;0;0" dur="24s" keyTimes="0;0.104;0.11;0.583;0.584;1" repeatCount="indefinite"/>
+    </text>
+    <!-- Game 2 active -->
+    <text x="400" y="155" text-anchor="middle" font-family="'Courier New', monospace" font-size="10" fill="#445566" letter-spacing="2px" opacity="0">
+      ROUND 2 OF 2
+      <animate attributeName="opacity" values="0;0;1;1;0" dur="24s" keyTimes="0;0.625;0.63;0.999;1" repeatCount="indefinite"/>
+    </text>
+  </g>
+
+  <!-- === FOOTER === -->
+  <text class="footer-text" x="400" y="385" text-anchor="middle" opacity="0">
+    POWERED BY NAGENDHRA.AI  //  ADVERSARIAL GAME ENGINE  //  github.com/Nagendhra-web
+    <animate attributeName="opacity" from="0" to="0.4" dur="1s" begin="2.5s" fill="freeze"/>
+  </text>
+
+  <!-- Corner decorations -->
+  <polyline points="15,25 15,15 25,15" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.4"/>
+  <polyline points="775,25 775,15 785,15" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.4" transform="translate(10,0)"/>
+  <polyline points="15,375 15,385 25,385" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.4"/>
+  <polyline points="775,375 775,385 785,385" fill="none" stroke="#00ff41" stroke-width="1" stroke-opacity="0.4" transform="translate(10,0)"/>
+</svg>
