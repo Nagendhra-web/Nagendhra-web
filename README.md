@@ -1,11 +1,7 @@
 <div align="center">
 
-<!-- Agentic AI Train Station: Mechanical robots board the Agent Express one by one -->
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Nagendhra-web/Nagendhra-web/main/agent-train.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Nagendhra-web/Nagendhra-web/main/agent-train.svg">
-  <img src="https://raw.githubusercontent.com/Nagendhra-web/Nagendhra-web/main/agent-train.svg" alt="Agentic AI Station — Robots board the Pipeline Express" width="850"/>
-</picture>
+<!-- Agentic AI Train Station: Mechanical robots walk and board the Agent Express one by one -->
+<img src="agent-train.svg" alt="Agentic AI Station — Robots board the Pipeline Express" width="850"/>
 
 <br/>
 
