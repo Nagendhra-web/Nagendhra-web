@@ -11,7 +11,7 @@
 <br/>
 
 <!-- Typing SVG -->
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=00FF41&center=true&vCenter=true&random=false&width=600&lines=AI+Engineer+%7C+Agentic+Systems+Builder;Building+OpenClaw+%F0%9F%94%A7+Without+LLMs;Ex-Goldman+Sachs+%7C+MS+%40+SUNY+Albany;LangGraph+%2B+FastAPI+%2B+Go+%2B+React;Open+Source+Contributor+%7C+NYC" alt="Typing SVG" /></a>
+<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=00FF41&center=true&vCenter=true&random=false&width=600&lines=AI+Engineer+%7C+Agentic+Systems+Builder;Building+OpenClaw+%F0%9F%A6%9E+No+LLM+Calls%2C+Users+Teach+It;Ex-Goldman+Sachs+%7C+MS+%40+SUNY+Albany;LangGraph+%2B+FastAPI+%2B+Go+%2B+React;Open+Source+Contributor+%7C+NYC" alt="Typing SVG" /></a>
 
 </div>
 
@@ -42,25 +42,36 @@ AI Engineer with **4+ years** building enterprise-grade generative AI systems, r
 </td>
 <td>
 
-### OpenClaw — Code Intelligence Without LLMs
+### Building OpenClaw — Without LLM Calls
 
-**What:** An open-source code intelligence engine that understands your codebase through pure **AST parsing**, **static analysis**, **pattern matching**, and **rule engines** — no LLM calls, no token costs, no API latency.
+Cloning [**OpenClaw**](https://github.com/openclaw/openclaw) (the open-source personal AI assistant) but rebuilding it to work **entirely without LLM API calls**. No tokens. No API keys. No cloud dependency.
 
-**Why:** LLMs are powerful but expensive, slow, and non-deterministic. OpenClaw provides fast, predictable, and private code understanding that runs entirely on your machine.
-
-**How:** Abstract syntax trees + control flow graphs + type inference + semantic pattern matching = deep code understanding at the speed of your local CPU.
+**The approach:** Instead of sending prompts to an LLM, users **teach** the system directly. You show it patterns, correct its behavior, and build up its knowledge through a **learning-by-teaching** method — like training a junior developer by pair programming, not by paying OpenAI.
 
 </td>
 </tr>
 </table>
 
 ```
-[ ] AST Parser Engine        [===========--------]  60%
-[ ] Static Analysis Core     [=========-----------]  45%
-[ ] Pattern Matching DSL     [=======-------------]  35%
-[ ] Rule Engine              [=====---------------]  25%
-[ ] VS Code Extension        [====-----------------] 20%
+How it works:
+
+  Traditional OpenClaw          My Version
+  ┌─────────────────┐          ┌─────────────────┐
+  │ User asks query  │          │ User asks query  │
+  │       ↓          │          │       ↓          │
+  │ Send to LLM API  │          │ Match against    │
+  │       ↓          │          │ taught patterns  │
+  │ Wait for response │          │       ↓          │
+  │       ↓          │          │ User corrects    │
+  │ Pay $$$  tokens  │          │ if wrong         │
+  │       ↓          │          │       ↓          │
+  │ Hope it's right  │          │ System learns    │
+  └─────────────────┘          │ permanently      │
+                               └─────────────────┘
+                               Cost: $0 | Latency: ~0ms
 ```
+
+**Core idea:** Every correction makes it smarter. Every interaction is training data. No API calls, no rate limits, no vendor lock-in. Your assistant runs on **your machine**, learns from **your workflow**, and belongs to **you**.
 
 </div>
 
