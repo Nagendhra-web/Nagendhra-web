@@ -1,468 +1,433 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="900" height="420">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 440" width="900" height="440">
   <defs>
     <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#1a1a2e"/><stop offset="40%" style="stop-color:#16213e"/><stop offset="100%" style="stop-color:#0f3460"/>
+      <stop offset="0%" style="stop-color:#0f172a"/><stop offset="50%" style="stop-color:#1e293b"/><stop offset="100%" style="stop-color:#334155"/>
     </linearGradient>
-    <linearGradient id="platform" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#4a4a6a"/><stop offset="100%" style="stop-color:#2d2d4a"/>
-    </linearGradient>
-    <linearGradient id="trainBody" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#e2e8f0"/><stop offset="100%" style="stop-color:#cbd5e1"/>
-    </linearGradient>
-    <filter id="gl" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    <filter id="gl" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <filter id="shadow">
-      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.15"/>
+    <filter id="sh">
+      <feDropShadow dx="0" dy="1" stdDeviation="1.5" flood-opacity="0.2"/>
     </filter>
-    <!-- Star twinkle -->
-    <radialGradient id="star">
-      <stop offset="0%" style="stop-color:#fff;stop-opacity:1"/><stop offset="100%" style="stop-color:#fff;stop-opacity:0"/>
-    </radialGradient>
   </defs>
 
   <style>
-    @keyframes trainMove { 0% { transform: translateX(920px); } 100% { transform: translateX(-1800px); } }
-    @keyframes trainMove2 { 0% { transform: translateX(920px); } 100% { transform: translateX(-1800px); } }
-    @keyframes botWalk1 { 0%,100% { transform: translateY(0); } 25% { transform: translateY(-4px); } 50% { transform: translateY(0); } 75% { transform: translateY(-3px); } }
-    @keyframes botWalk2 { 0%,100% { transform: translateY(0) translateX(0); } 30% { transform: translateY(-4px) translateX(2px); } 60% { transform: translateY(0) translateX(4px); } }
-    @keyframes legSwing { 0%,100% { transform: rotate(0deg); } 25% { transform: rotate(15deg); } 75% { transform: rotate(-15deg); } }
-    @keyframes armWave { 0%,100% { transform: rotate(0deg); } 50% { transform: rotate(-20deg); } }
-    @keyframes blink { 0%,92%,96%,100% { opacity: 1; } 94% { opacity: 0; } }
-    @keyframes twinkle { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
-    @keyframes smoke { 0% { transform: translateY(0) scale(1); opacity: 0.6; } 100% { transform: translateY(-30px) scale(2.5); opacity: 0; } }
+    .lbl { font-family: 'Courier New', monospace; font-weight: 700; font-size: 8px; }
+    .sub { font-family: 'Courier New', monospace; font-size: 6.5px; }
+    .title { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; }
+
+    /* 30s total loop:
+       0-2s:    Scene idle, train parked
+       2-5s:    Bot1 (Query) walks in from left, boards
+       5-8s:    Bot2 (LLM) walks in, boards
+       8-11s:   Bot3 (Planner) walks in, boards
+       11-14s:  Bot4 (Tools) walks in, boards
+       14-17s:  Bot5 (Memory) walks in, boards
+       17-20s:  Bot6 (Guard) walks in, boards
+       20-23s:  Bot7 (Output) walks in, boards
+       23-25s:  Doors close, whistle
+       25-30s:  Train departs right, scene resets
+    */
+
+    @keyframes trainArrive {
+      0% { transform: translateX(900px); }
+      5% { transform: translateX(0); }
+      83% { transform: translateX(0); }
+      100% { transform: translateX(-1200px); }
+    }
+
+    /* Bot walking: each bot walks from x=-60 to x=boardingPoint then disappears */
+    @keyframes bot1Walk {
+      0%,6% { transform: translateX(-80px); opacity: 0; }
+      7% { transform: translateX(-80px); opacity: 1; }
+      16% { transform: translateX(175px); opacity: 1; }
+      17% { transform: translateX(175px); opacity: 0; }
+      100% { transform: translateX(175px); opacity: 0; }
+    }
+    @keyframes bot2Walk {
+      0%,17% { transform: translateX(-80px); opacity: 0; }
+      18% { transform: translateX(-80px); opacity: 1; }
+      27% { transform: translateX(295px); opacity: 1; }
+      28% { transform: translateX(295px); opacity: 0; }
+      100% { transform: translateX(295px); opacity: 0; }
+    }
+    @keyframes bot3Walk {
+      0%,27% { transform: translateX(-80px); opacity: 0; }
+      28% { transform: translateX(-80px); opacity: 1; }
+      37% { transform: translateX(400px); opacity: 1; }
+      38% { transform: translateX(400px); opacity: 0; }
+      100% { transform: translateX(400px); opacity: 0; }
+    }
+    @keyframes bot4Walk {
+      0%,37% { transform: translateX(-80px); opacity: 0; }
+      38% { transform: translateX(-80px); opacity: 1; }
+      47% { transform: translateX(500px); opacity: 1; }
+      48% { transform: translateX(500px); opacity: 0; }
+      100% { transform: translateX(500px); opacity: 0; }
+    }
+    @keyframes bot5Walk {
+      0%,47% { transform: translateX(-80px); opacity: 0; }
+      48% { transform: translateX(-80px); opacity: 1; }
+      57% { transform: translateX(595px); opacity: 1; }
+      58% { transform: translateX(595px); opacity: 0; }
+      100% { transform: translateX(595px); opacity: 0; }
+    }
+    @keyframes bot6Walk {
+      0%,57% { transform: translateX(-80px); opacity: 0; }
+      58% { transform: translateX(-80px); opacity: 1; }
+      67% { transform: translateX(690px); opacity: 1; }
+      68% { transform: translateX(690px); opacity: 0; }
+      100% { transform: translateX(690px); opacity: 0; }
+    }
+    @keyframes bot7Walk {
+      0%,67% { transform: translateX(-80px); opacity: 0; }
+      68% { transform: translateX(-80px); opacity: 1; }
+      77% { transform: translateX(780px); opacity: 1; }
+      78% { transform: translateX(780px); opacity: 0; }
+      100% { transform: translateX(780px); opacity: 0; }
+    }
+
+    @keyframes legLeft { 0%,50% { transform: rotate(15deg); } 50.1%,100% { transform: rotate(-15deg); } }
+    @keyframes legRight { 0%,50% { transform: rotate(-15deg); } 50.1%,100% { transform: rotate(15deg); } }
+    @keyframes armSwing { 0%,50% { transform: rotate(20deg); } 50.1%,100% { transform: rotate(-20deg); } }
+    @keyframes antennaBlink { 0%,100% { fill: #ff4444; } 50% { fill: #44ff44; } }
+    @keyframes eyeGlow { 0%,100% { opacity: 0.8; } 50% { opacity: 1; } }
     @keyframes wheelSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    @keyframes signBlink { 0%,100% { fill: #22c55e; } 50% { fill: #86efac; } }
-    @keyframes cloudMove { 0% { transform: translateX(0); } 100% { transform: translateX(-100px); } }
-    @keyframes lampFlicker { 0%,100% { opacity: 0.8; } 50% { opacity: 1; } }
-    .label { font-family: 'Segoe UI', system-ui, sans-serif; font-weight: 700; }
-    .sub { font-family: 'Courier New', monospace; font-weight: 600; }
+    @keyframes smokeUp { 0% { transform: translateY(0) scale(1); opacity: 0.5; } 100% { transform: translateY(-25px) scale(2); opacity: 0; } }
+    @keyframes signGlow { 0%,100% { fill: #4ade80; } 50% { fill: #22c55e; } }
+    @keyframes stepNum { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
   </style>
 
-  <!-- ===== SKY ===== -->
-  <rect width="900" height="420" fill="url(#sky)" rx="12"/>
+  <!-- Sky -->
+  <rect width="900" height="440" fill="url(#sky)" rx="10"/>
 
   <!-- Stars -->
-  <circle cx="50" cy="25" r="1.2" fill="white"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle>
-  <circle cx="150" cy="40" r="0.8" fill="white"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite" begin="0.5s"/></circle>
-  <circle cx="280" cy="15" r="1" fill="white"><animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite" begin="1s"/></circle>
-  <circle cx="400" cy="30" r="1.3" fill="white"><animate attributeName="opacity" values="0.3;1;0.3" dur="3.5s" repeatCount="indefinite" begin="0.3s"/></circle>
-  <circle cx="530" cy="20" r="0.9" fill="white"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.8s" repeatCount="indefinite" begin="0.8s"/></circle>
-  <circle cx="650" cy="35" r="1.1" fill="white"><animate attributeName="opacity" values="0.3;1;0.3" dur="3.2s" repeatCount="indefinite" begin="1.5s"/></circle>
-  <circle cx="750" cy="18" r="0.7" fill="white"><animate attributeName="opacity" values="0.6;1;0.6" dur="2.2s" repeatCount="indefinite" begin="0.2s"/></circle>
-  <circle cx="830" cy="42" r="1" fill="white"><animate attributeName="opacity" values="0.4;1;0.4" dur="3.8s" repeatCount="indefinite" begin="1.2s"/></circle>
-  <circle cx="100" cy="55" r="0.6" fill="white"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" begin="0.7s"/></circle>
-  <circle cx="350" cy="50" r="0.8" fill="white"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.6s" repeatCount="indefinite" begin="1.8s"/></circle>
-  <circle cx="600" cy="10" r="1.5" fill="white"><animate attributeName="opacity" values="0.2;0.9;0.2" dur="4.5s" repeatCount="indefinite" begin="0.4s"/></circle>
-  <circle cx="480" cy="48" r="0.5" fill="white" opacity="0.4"/>
-  <circle cx="710" cy="55" r="0.7" fill="white" opacity="0.5"/>
-  <circle cx="200" cy="60" r="0.6" fill="white" opacity="0.3"/>
-
-  <!-- Moon -->
-  <circle cx="780" cy="55" r="22" fill="#e2e8f0" opacity="0.15"/>
-  <circle cx="785" cy="50" r="22" fill="url(#sky)"/>
-
-  <!-- Clouds -->
-  <g opacity="0.06" fill="white">
-    <ellipse cx="200" cy="70" rx="50" ry="15"><animate attributeName="cx" values="200;150;200" dur="30s" repeatCount="indefinite"/></ellipse>
-    <ellipse cx="600" cy="55" rx="40" ry="12"><animate attributeName="cx" values="600;560;600" dur="25s" repeatCount="indefinite"/></ellipse>
+  <g fill="white">
+    <circle cx="45" cy="20" r="1"><animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="130" cy="35" r="0.7"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite" begin="0.5s"/></circle>
+    <circle cx="250" cy="12" r="1.2"><animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite" begin="1s"/></circle>
+    <circle cx="380" cy="28" r="0.8"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="3.5s" repeatCount="indefinite" begin="0.3s"/></circle>
+    <circle cx="500" cy="18" r="1"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.8s" repeatCount="indefinite" begin="0.8s"/></circle>
+    <circle cx="620" cy="32" r="0.6"><animate attributeName="opacity" values="0.3;1;0.3" dur="3.2s" repeatCount="indefinite" begin="1.5s"/></circle>
+    <circle cx="720" cy="15" r="1.1"><animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.2s" repeatCount="indefinite" begin="0.2s"/></circle>
+    <circle cx="830" cy="25" r="0.9"><animate attributeName="opacity" values="0.6;1;0.6" dur="3.8s" repeatCount="indefinite" begin="1.2s"/></circle>
+    <circle cx="170" cy="50" r="0.5" opacity="0.4"/><circle cx="440" cy="42" r="0.7" opacity="0.3"/>
+    <circle cx="560" cy="8" r="1.3"><animate attributeName="opacity" values="0.2;0.8;0.2" dur="4.5s" repeatCount="indefinite" begin="0.4s"/></circle>
+    <circle cx="680" cy="48" r="0.5" opacity="0.4"/><circle cx="800" cy="40" r="0.6" opacity="0.3"/>
   </g>
 
-  <!-- ===== SIGN: "AGENTIC AI STATION" ===== -->
-  <!-- Sign board -->
-  <rect x="310" y="68" width="280" height="40" rx="6" fill="#1e293b" stroke="#334155" stroke-width="1.5" filter="url(#shadow)"/>
-  <rect x="314" y="72" width="272" height="32" rx="4" fill="none" stroke="#475569" stroke-width="0.5"/>
-  <!-- Sign text with glow -->
-  <text class="label" x="450" y="86" text-anchor="middle" font-size="11" fill="#22c55e" letter-spacing="3px" filter="url(#gl)">
+  <!-- Station Sign -->
+  <rect x="250" y="58" width="400" height="45" rx="6" fill="#0f172a" stroke="#475569" stroke-width="1.5" filter="url(#sh)"/>
+  <rect x="254" y="62" width="392" height="37" rx="4" fill="none" stroke="#334155" stroke-width="0.5"/>
+  <text class="title" x="450" y="80" text-anchor="middle" font-size="13" fill="#4ade80" letter-spacing="3px" filter="url(#gl)">
     AGENTIC AI STATION
-    <animate attributeName="fill" values="#22c55e;#4ade80;#22c55e" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="fill" values="#4ade80;#22c55e;#4ade80" dur="2s" repeatCount="indefinite"/>
   </text>
-  <text class="sub" x="450" y="100" text-anchor="middle" font-size="7.5" fill="#94a3b8" letter-spacing="1.5px">END-TO-END PIPELINE EXPRESS</text>
+  <text class="sub" x="450" y="94" text-anchor="middle" font-size="7" fill="#94a3b8" letter-spacing="2px">BOARDING IN ORDER // QUERY -> REASON -> PLAN -> EXECUTE -> REMEMBER -> GUARD -> OUTPUT</text>
   <!-- Sign poles -->
-  <rect x="340" y="108" width="3" height="30" rx="1" fill="#475569"/>
-  <rect x="557" y="108" width="3" height="30" rx="1" fill="#475569"/>
+  <rect x="300" y="103" width="3" height="25" fill="#475569"/>
+  <rect x="597" y="103" width="3" height="25" fill="#475569"/>
 
-  <!-- ===== PLATFORM ===== -->
-  <rect x="0" y="295" width="900" height="20" rx="2" fill="url(#platform)"/>
-  <rect x="0" y="295" width="900" height="3" rx="1" fill="#6366f1" opacity="0.3"/>
-  <!-- Platform edge yellow line -->
-  <rect x="0" y="313" width="900" height="3" fill="#eab308" opacity="0.7"/>
-  <!-- Platform texture -->
-  <g opacity="0.08">
-    <line x1="50" y1="298" x2="50" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="100" y1="298" x2="100" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="150" y1="298" x2="150" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="200" y1="298" x2="200" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="250" y1="298" x2="250" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="300" y1="298" x2="300" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="350" y1="298" x2="350" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="400" y1="298" x2="400" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="450" y1="298" x2="450" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="500" y1="298" x2="500" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="550" y1="298" x2="550" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="600" y1="298" x2="600" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="650" y1="298" x2="650" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="700" y1="298" x2="700" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="750" y1="298" x2="750" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="800" y1="298" x2="800" y2="315" stroke="white" stroke-width="0.5"/>
-    <line x1="850" y1="298" x2="850" y2="315" stroke="white" stroke-width="0.5"/>
-  </g>
-
-  <!-- ===== TRACKS ===== -->
-  <rect x="0" y="370" width="900" height="4" rx="2" fill="#78716c"/>
-  <rect x="0" y="385" width="900" height="4" rx="2" fill="#78716c"/>
-  <!-- Sleepers -->
-  <g fill="#57534e" opacity="0.6">
-    <rect x="20" y="368" width="6" height="23" rx="1"/><rect x="50" y="368" width="6" height="23" rx="1"/>
-    <rect x="80" y="368" width="6" height="23" rx="1"/><rect x="110" y="368" width="6" height="23" rx="1"/>
-    <rect x="140" y="368" width="6" height="23" rx="1"/><rect x="170" y="368" width="6" height="23" rx="1"/>
-    <rect x="200" y="368" width="6" height="23" rx="1"/><rect x="230" y="368" width="6" height="23" rx="1"/>
-    <rect x="260" y="368" width="6" height="23" rx="1"/><rect x="290" y="368" width="6" height="23" rx="1"/>
-    <rect x="320" y="368" width="6" height="23" rx="1"/><rect x="350" y="368" width="6" height="23" rx="1"/>
-    <rect x="380" y="368" width="6" height="23" rx="1"/><rect x="410" y="368" width="6" height="23" rx="1"/>
-    <rect x="440" y="368" width="6" height="23" rx="1"/><rect x="470" y="368" width="6" height="23" rx="1"/>
-    <rect x="500" y="368" width="6" height="23" rx="1"/><rect x="530" y="368" width="6" height="23" rx="1"/>
-    <rect x="560" y="368" width="6" height="23" rx="1"/><rect x="590" y="368" width="6" height="23" rx="1"/>
-    <rect x="620" y="368" width="6" height="23" rx="1"/><rect x="650" y="368" width="6" height="23" rx="1"/>
-    <rect x="680" y="368" width="6" height="23" rx="1"/><rect x="710" y="368" width="6" height="23" rx="1"/>
-    <rect x="740" y="368" width="6" height="23" rx="1"/><rect x="770" y="368" width="6" height="23" rx="1"/>
-    <rect x="800" y="368" width="6" height="23" rx="1"/><rect x="830" y="368" width="6" height="23" rx="1"/>
-    <rect x="860" y="368" width="6" height="23" rx="1"/>
-  </g>
-
-  <!-- Ground -->
-  <rect x="0" y="392" width="900" height="28" fill="#1e1b2e"/>
-
-  <!-- ===== LAMP POSTS ===== -->
+  <!-- Lamp posts -->
   <g>
-    <!-- Lamp 1 -->
-    <rect x="80" y="130" width="4" height="165" fill="#475569"/>
-    <rect x="70" y="125" width="24" height="8" rx="4" fill="#334155"/>
-    <ellipse cx="82" cy="122" rx="10" ry="5" fill="#fbbf24" opacity="0.2"><animate attributeName="opacity" values="0.15;0.25;0.15" dur="3s" repeatCount="indefinite"/></ellipse>
-    <circle cx="82" cy="125" r="5" fill="#fbbf24" opacity="0.5"><animate attributeName="opacity" values="0.4;0.6;0.4" dur="2s" repeatCount="indefinite"/></circle>
+    <rect x="58" y="115" width="4" height="160" fill="#475569"/>
+    <rect x="48" y="110" width="24" height="8" rx="4" fill="#334155"/>
+    <circle cx="60" cy="110" r="5" fill="#fbbf24" opacity="0.5"><animate attributeName="opacity" values="0.4;0.6;0.4" dur="2s" repeatCount="indefinite"/></circle>
+    <ellipse cx="60" cy="108" rx="12" ry="6" fill="#fbbf24" opacity="0.08"/>
 
-    <!-- Lamp 2 -->
-    <rect x="330" y="130" width="4" height="165" fill="#475569"/>
-    <rect x="320" y="125" width="24" height="8" rx="4" fill="#334155"/>
-    <circle cx="332" cy="125" r="5" fill="#fbbf24" opacity="0.5"><animate attributeName="opacity" values="0.4;0.6;0.4" dur="2s" repeatCount="indefinite" begin="0.5s"/></circle>
+    <rect x="448" y="115" width="4" height="160" fill="#475569"/>
+    <rect x="438" y="110" width="24" height="8" rx="4" fill="#334155"/>
+    <circle cx="450" cy="110" r="5" fill="#fbbf24" opacity="0.5"><animate attributeName="opacity" values="0.4;0.6;0.4" dur="2s" repeatCount="indefinite" begin="0.7s"/></circle>
 
-    <!-- Lamp 3 -->
-    <rect x="580" y="130" width="4" height="165" fill="#475569"/>
-    <rect x="570" y="125" width="24" height="8" rx="4" fill="#334155"/>
-    <circle cx="582" cy="125" r="5" fill="#fbbf24" opacity="0.5"><animate attributeName="opacity" values="0.4;0.6;0.4" dur="2s" repeatCount="indefinite" begin="1s"/></circle>
-
-    <!-- Lamp 4 -->
-    <rect x="820" y="130" width="4" height="165" fill="#475569"/>
-    <rect x="810" y="125" width="24" height="8" rx="4" fill="#334155"/>
-    <circle cx="822" cy="125" r="5" fill="#fbbf24" opacity="0.5"><animate attributeName="opacity" values="0.4;0.6;0.4" dur="2s" repeatCount="indefinite" begin="1.5s"/></circle>
+    <rect x="838" y="115" width="4" height="160" fill="#475569"/>
+    <rect x="828" y="110" width="24" height="8" rx="4" fill="#334155"/>
+    <circle cx="840" cy="110" r="5" fill="#fbbf24" opacity="0.5"><animate attributeName="opacity" values="0.4;0.6;0.4" dur="2s" repeatCount="indefinite" begin="1.4s"/></circle>
   </g>
 
-  <!-- ===== BOTS ON PLATFORM (waiting/walking) ===== -->
+  <!-- Platform -->
+  <rect x="0" y="275" width="900" height="18" rx="2" fill="#3f3f5c"/>
+  <rect x="0" y="275" width="900" height="3" fill="#6366f1" opacity="0.3"/>
+  <rect x="0" y="291" width="900" height="3" fill="#eab308" opacity="0.6"/>
 
-  <!-- Bot 1: LLM Bot (purple) - waving -->
-  <g style="animation: botWalk1 0.8s ease-in-out infinite">
-    <!-- Body -->
-    <rect x="120" y="248" width="28" height="30" rx="8" fill="#c084fc" stroke="#9333ea" stroke-width="1.2"/>
-    <!-- Head -->
-    <circle cx="134" cy="240" r="14" fill="#e9d5ff" stroke="#9333ea" stroke-width="1.2"/>
-    <!-- Eyes -->
-    <circle cx="129" cy="237" r="2.5" fill="#581c87"><animate attributeName="r" values="2.5;1.5;2.5" dur="3s" repeatCount="indefinite"/></circle>
-    <circle cx="139" cy="237" r="2.5" fill="#581c87"><animate attributeName="r" values="2.5;1.5;2.5" dur="3s" repeatCount="indefinite" begin="0.2s"/></circle>
-    <!-- Mouth -->
-    <path d="M128,244 Q134,249 140,244" fill="none" stroke="#581c87" stroke-width="1.2" stroke-linecap="round"/>
-    <!-- Antenna -->
-    <line x1="134" y1="226" x2="134" y2="218" stroke="#9333ea" stroke-width="1.5"/>
-    <circle cx="134" cy="216" r="3" fill="#a855f7"><animate attributeName="fill" values="#a855f7;#f0abfc;#a855f7" dur="1.5s" repeatCount="indefinite"/></circle>
-    <!-- Arms -->
-    <line x1="120" y1="255" x2="110" y2="248" stroke="#9333ea" stroke-width="2" stroke-linecap="round"><animate attributeName="y2" values="248;242;248" dur="1s" repeatCount="indefinite"/></line>
-    <line x1="148" y1="255" x2="158" y2="262" stroke="#9333ea" stroke-width="2" stroke-linecap="round"/>
-    <!-- Legs -->
-    <line x1="128" y1="278" x2="124" y2="293" stroke="#9333ea" stroke-width="2.5" stroke-linecap="round"><animate attributeName="x2" values="124;120;124" dur="0.8s" repeatCount="indefinite"/></line>
-    <line x1="140" y1="278" x2="144" y2="293" stroke="#9333ea" stroke-width="2.5" stroke-linecap="round"><animate attributeName="x2" values="144;148;144" dur="0.8s" repeatCount="indefinite"/></line>
+  <!-- Tracks -->
+  <rect x="0" y="352" width="900" height="4" rx="2" fill="#78716c"/>
+  <rect x="0" y="366" width="900" height="4" rx="2" fill="#78716c"/>
+  <g fill="#57534e" opacity="0.5">
+    <rect x="15" y="350" width="5" height="22" rx="1"/><rect x="40" y="350" width="5" height="22" rx="1"/>
+    <rect x="65" y="350" width="5" height="22" rx="1"/><rect x="90" y="350" width="5" height="22" rx="1"/>
+    <rect x="115" y="350" width="5" height="22" rx="1"/><rect x="140" y="350" width="5" height="22" rx="1"/>
+    <rect x="165" y="350" width="5" height="22" rx="1"/><rect x="190" y="350" width="5" height="22" rx="1"/>
+    <rect x="215" y="350" width="5" height="22" rx="1"/><rect x="240" y="350" width="5" height="22" rx="1"/>
+    <rect x="265" y="350" width="5" height="22" rx="1"/><rect x="290" y="350" width="5" height="22" rx="1"/>
+    <rect x="315" y="350" width="5" height="22" rx="1"/><rect x="340" y="350" width="5" height="22" rx="1"/>
+    <rect x="365" y="350" width="5" height="22" rx="1"/><rect x="390" y="350" width="5" height="22" rx="1"/>
+    <rect x="415" y="350" width="5" height="22" rx="1"/><rect x="440" y="350" width="5" height="22" rx="1"/>
+    <rect x="465" y="350" width="5" height="22" rx="1"/><rect x="490" y="350" width="5" height="22" rx="1"/>
+    <rect x="515" y="350" width="5" height="22" rx="1"/><rect x="540" y="350" width="5" height="22" rx="1"/>
+    <rect x="565" y="350" width="5" height="22" rx="1"/><rect x="590" y="350" width="5" height="22" rx="1"/>
+    <rect x="615" y="350" width="5" height="22" rx="1"/><rect x="640" y="350" width="5" height="22" rx="1"/>
+    <rect x="665" y="350" width="5" height="22" rx="1"/><rect x="690" y="350" width="5" height="22" rx="1"/>
+    <rect x="715" y="350" width="5" height="22" rx="1"/><rect x="740" y="350" width="5" height="22" rx="1"/>
+    <rect x="765" y="350" width="5" height="22" rx="1"/><rect x="790" y="350" width="5" height="22" rx="1"/>
+    <rect x="815" y="350" width="5" height="22" rx="1"/><rect x="840" y="350" width="5" height="22" rx="1"/>
+    <rect x="865" y="350" width="5" height="22" rx="1"/><rect x="890" y="350" width="5" height="22" rx="1"/>
+  </g>
+  <!-- Ground -->
+  <rect x="0" y="373" width="900" height="67" fill="#1a1a2e"/>
+
+  <!-- Step indicators on platform -->
+  <g>
+    <circle cx="195" cy="283" r="7" fill="#6366f1" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="30s" keyTimes="0;0.12;0.17" repeatCount="indefinite"/></circle>
+    <text x="195" y="286" text-anchor="middle" class="sub" fill="white" font-size="7">1</text>
+    <circle cx="310" cy="283" r="7" fill="#a855f7" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="30s" keyTimes="0;0.22;0.27" repeatCount="indefinite"/></circle>
+    <text x="310" y="286" text-anchor="middle" class="sub" fill="white" font-size="7">2</text>
+    <circle cx="415" cy="283" r="7" fill="#22c55e" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="30s" keyTimes="0;0.32;0.37" repeatCount="indefinite"/></circle>
+    <text x="415" y="286" text-anchor="middle" class="sub" fill="white" font-size="7">3</text>
+    <circle cx="520" cy="283" r="7" fill="#f97316" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="30s" keyTimes="0;0.42;0.47" repeatCount="indefinite"/></circle>
+    <text x="520" y="286" text-anchor="middle" class="sub" fill="white" font-size="7">4</text>
+    <circle cx="615" cy="283" r="7" fill="#ec4899" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="30s" keyTimes="0;0.52;0.57" repeatCount="indefinite"/></circle>
+    <text x="615" y="286" text-anchor="middle" class="sub" fill="white" font-size="7">5</text>
+    <circle cx="710" cy="283" r="7" fill="#ef4444" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="30s" keyTimes="0;0.62;0.67" repeatCount="indefinite"/></circle>
+    <text x="710" y="286" text-anchor="middle" class="sub" fill="white" font-size="7">6</text>
+    <circle cx="800" cy="283" r="7" fill="#10b981" opacity="0.6"><animate attributeName="opacity" values="0.4;0.8;0.4" dur="30s" keyTimes="0;0.72;0.77" repeatCount="indefinite"/></circle>
+    <text x="800" y="286" text-anchor="middle" class="sub" fill="white" font-size="7">7</text>
+  </g>
+
+  <!-- ===== ROBOT TEMPLATE: Mechanical bot with square head, screen eyes, antenna, jointed limbs ===== -->
+
+  <!-- ROBOT 1: QUERY (Indigo) - walks to pos 1 -->
+  <g style="animation: bot1Walk 30s linear infinite">
     <!-- Label -->
-    <rect x="112" y="200" width="44" height="14" rx="7" fill="#7c3aed" filter="url(#shadow)"/>
-    <text x="134" y="210" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="white" font-weight="bold">LLM</text>
+    <rect x="5" y="195" width="50" height="16" rx="8" fill="#4338ca" filter="url(#sh)"/>
+    <text x="30" y="206" text-anchor="middle" class="lbl" fill="white">QUERY</text>
+    <!-- Antenna -->
+    <line x1="30" y1="214" x2="30" y2="206" stroke="#6366f1" stroke-width="1.5"/>
+    <circle cx="30" cy="205" r="3" fill="#818cf8"><animate attributeName="fill" values="#818cf8;#c7d2fe;#818cf8" dur="1s" repeatCount="indefinite"/></circle>
+    <!-- Head (square robot) -->
+    <rect x="16" y="214" width="28" height="22" rx="4" fill="#a5b4fc" stroke="#4338ca" stroke-width="1.5"/>
+    <!-- Screen face -->
+    <rect x="20" y="218" width="20" height="10" rx="2" fill="#1e1b4b"/>
+    <!-- LED eyes -->
+    <rect x="23" y="221" width="5" height="4" rx="1" fill="#818cf8"><animate attributeName="fill" values="#818cf8;#c7d2fe;#818cf8" dur="2s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="221" width="5" height="4" rx="1" fill="#818cf8"><animate attributeName="fill" values="#818cf8;#c7d2fe;#818cf8" dur="2s" repeatCount="indefinite" begin="0.3s"/></rect>
+    <!-- Body -->
+    <rect x="18" y="238" width="24" height="20" rx="3" fill="#c7d2fe" stroke="#4338ca" stroke-width="1.2"/>
+    <!-- Chest panel -->
+    <rect x="24" y="242" width="12" height="8" rx="1.5" fill="#4338ca"/>
+    <circle cx="28" cy="246" r="1.5" fill="#818cf8"/><circle cx="33" cy="246" r="1.5" fill="#22c55e"/>
+    <!-- Arms (jointed) -->
+    <g style="animation: armSwing 0.4s ease-in-out infinite">
+      <rect x="8" y="240" width="10" height="4" rx="2" fill="#a5b4fc" stroke="#4338ca" stroke-width="0.8"/>
+      <rect x="4" y="244" width="5" height="8" rx="2" fill="#a5b4fc" stroke="#4338ca" stroke-width="0.8"/>
+    </g>
+    <g style="animation: armSwing 0.4s ease-in-out infinite reverse">
+      <rect x="42" y="240" width="10" height="4" rx="2" fill="#a5b4fc" stroke="#4338ca" stroke-width="0.8"/>
+      <rect x="50" y="244" width="5" height="8" rx="2" fill="#a5b4fc" stroke="#4338ca" stroke-width="0.8"/>
+    </g>
+    <!-- Legs (walking) -->
+    <g>
+      <rect x="21" y="258" width="6" height="12" rx="2" fill="#a5b4fc" stroke="#4338ca" stroke-width="0.8">
+        <animate attributeName="x" values="21;18;21;24;21" dur="0.4s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="33" y="258" width="6" height="12" rx="2" fill="#a5b4fc" stroke="#4338ca" stroke-width="0.8">
+        <animate attributeName="x" values="33;36;33;30;33" dur="0.4s" repeatCount="indefinite"/>
+      </rect>
+      <!-- Feet -->
+      <rect x="18" y="269" width="10" height="4" rx="2" fill="#4338ca">
+        <animate attributeName="x" values="18;15;18;21;18" dur="0.4s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="32" y="269" width="10" height="4" rx="2" fill="#4338ca">
+        <animate attributeName="x" values="32;35;32;29;32" dur="0.4s" repeatCount="indefinite"/>
+      </rect>
+    </g>
   </g>
 
-  <!-- Bot 2: RAG Bot (blue) - walking right -->
-  <g style="animation: botWalk2 1s ease-in-out infinite">
-    <rect x="220" y="252" width="26" height="28" rx="7" fill="#93c5fd" stroke="#2563eb" stroke-width="1.2"/>
-    <circle cx="233" cy="244" r="13" fill="#dbeafe" stroke="#2563eb" stroke-width="1.2"/>
-    <circle cx="228" cy="241" r="2.2" fill="#1e3a8a"><animate attributeName="r" values="2.2;1.2;2.2" dur="4s" repeatCount="indefinite" begin="0.5s"/></circle>
-    <circle cx="238" cy="241" r="2.2" fill="#1e3a8a"><animate attributeName="r" values="2.2;1.2;2.2" dur="4s" repeatCount="indefinite" begin="0.7s"/></circle>
-    <path d="M227,248 Q233,252 239,248" fill="none" stroke="#1e3a8a" stroke-width="1.2"/>
-    <!-- Book in hand -->
-    <rect x="247" y="256" width="8" height="10" rx="1" fill="#60a5fa" stroke="#2563eb" stroke-width="0.8"/>
-    <line x1="249" y1="259" x2="253" y2="259" stroke="#2563eb" stroke-width="0.5"/>
-    <line x1="249" y1="262" x2="253" y2="262" stroke="#2563eb" stroke-width="0.5"/>
-    <line x1="220" y1="258" x2="212" y2="265" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
-    <line x1="246" y1="258" x2="247" y2="257" stroke="#2563eb" stroke-width="2" stroke-linecap="round"/>
-    <line x1="227" y1="280" x2="222" y2="293" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"><animate attributeName="x2" values="222;218;222" dur="1s" repeatCount="indefinite"/></line>
-    <line x1="239" y1="280" x2="244" y2="293" stroke="#2563eb" stroke-width="2.5" stroke-linecap="round"><animate attributeName="x2" values="244;248;244" dur="1s" repeatCount="indefinite"/></line>
-    <rect x="213" y="204" width="40" height="14" rx="7" fill="#2563eb" filter="url(#shadow)"/>
-    <text x="233" y="214" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="white" font-weight="bold">RAG</text>
+  <!-- ROBOT 2: LLM (Purple) -->
+  <g style="animation: bot2Walk 30s linear infinite">
+    <rect x="5" y="195" width="42" height="16" rx="8" fill="#7c3aed" filter="url(#sh)"/>
+    <text x="26" y="206" text-anchor="middle" class="lbl" fill="white">LLM</text>
+    <line x1="30" y1="214" x2="30" y2="206" stroke="#9333ea" stroke-width="1.5"/>
+    <circle cx="30" cy="205" r="3" fill="#c084fc"><animate attributeName="fill" values="#c084fc;#f0abfc;#c084fc" dur="1.2s" repeatCount="indefinite"/></circle>
+    <rect x="16" y="214" width="28" height="22" rx="4" fill="#d8b4fe" stroke="#7c3aed" stroke-width="1.5"/>
+    <rect x="20" y="218" width="20" height="10" rx="2" fill="#3b0764"/>
+    <rect x="23" y="221" width="5" height="4" rx="1" fill="#c084fc"><animate attributeName="fill" values="#c084fc;#f0abfc;#c084fc" dur="1.8s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="221" width="5" height="4" rx="1" fill="#c084fc"><animate attributeName="fill" values="#c084fc;#f0abfc;#c084fc" dur="1.8s" repeatCount="indefinite" begin="0.2s"/></rect>
+    <rect x="18" y="238" width="24" height="20" rx="3" fill="#e9d5ff" stroke="#7c3aed" stroke-width="1.2"/>
+    <rect x="24" y="242" width="12" height="8" rx="1.5" fill="#7c3aed"/>
+    <circle cx="28" cy="246" r="1.5" fill="#c084fc"/><circle cx="33" cy="246" r="1.5" fill="#fbbf24"/>
+    <g style="animation: armSwing 0.4s ease-in-out infinite"><rect x="8" y="240" width="10" height="4" rx="2" fill="#d8b4fe" stroke="#7c3aed" stroke-width="0.8"/><rect x="4" y="244" width="5" height="8" rx="2" fill="#d8b4fe" stroke="#7c3aed" stroke-width="0.8"/></g>
+    <g style="animation: armSwing 0.4s ease-in-out infinite reverse"><rect x="42" y="240" width="10" height="4" rx="2" fill="#d8b4fe" stroke="#7c3aed" stroke-width="0.8"/><rect x="50" y="244" width="5" height="8" rx="2" fill="#d8b4fe" stroke="#7c3aed" stroke-width="0.8"/></g>
+    <rect x="21" y="258" width="6" height="12" rx="2" fill="#d8b4fe" stroke="#7c3aed" stroke-width="0.8"><animate attributeName="x" values="21;18;21;24;21" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="33" y="258" width="6" height="12" rx="2" fill="#d8b4fe" stroke="#7c3aed" stroke-width="0.8"><animate attributeName="x" values="33;36;33;30;33" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="18" y="269" width="10" height="4" rx="2" fill="#7c3aed"><animate attributeName="x" values="18;15;18;21;18" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="269" width="10" height="4" rx="2" fill="#7c3aed"><animate attributeName="x" values="32;35;32;29;32" dur="0.4s" repeatCount="indefinite"/></rect>
   </g>
 
-  <!-- Bot 3: Planner Bot (green) - thinking -->
-  <g style="animation: botWalk1 1.2s ease-in-out infinite">
-    <rect x="390" y="250" width="28" height="30" rx="8" fill="#86efac" stroke="#16a34a" stroke-width="1.2"/>
-    <circle cx="404" cy="242" r="14" fill="#dcfce7" stroke="#16a34a" stroke-width="1.2"/>
-    <circle cx="399" cy="239" r="2.2" fill="#14532d"/>
-    <circle cx="409" cy="239" r="2.2" fill="#14532d"/>
-    <path d="M399,246 L409,246" fill="none" stroke="#14532d" stroke-width="1.2"/>
-    <!-- Thought bubbles -->
-    <circle cx="420" cy="232" r="2.5" fill="white" opacity="0.4"/>
-    <circle cx="425" cy="225" r="3.5" fill="white" opacity="0.3"><animate attributeName="r" values="3.5;4.5;3.5" dur="2s" repeatCount="indefinite"/></circle>
-    <circle cx="432" cy="217" r="5" fill="white" opacity="0.2"><animate attributeName="r" values="5;6;5" dur="2s" repeatCount="indefinite" begin="0.3s"/></circle>
-    <line x1="390" y1="256" x2="380" y2="262" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
-    <line x1="418" y1="256" x2="428" y2="262" stroke="#16a34a" stroke-width="2" stroke-linecap="round"/>
-    <line x1="397" y1="280" x2="393" y2="293" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="411" y1="280" x2="415" y2="293" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="380" y="200" width="48" height="14" rx="7" fill="#16a34a" filter="url(#shadow)"/>
-    <text x="404" y="210" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="white" font-weight="bold">PLAN</text>
+  <!-- ROBOT 3: PLANNER (Green) -->
+  <g style="animation: bot3Walk 30s linear infinite">
+    <rect x="2" y="195" width="56" height="16" rx="8" fill="#16a34a" filter="url(#sh)"/>
+    <text x="30" y="206" text-anchor="middle" class="lbl" fill="white">PLANNER</text>
+    <line x1="30" y1="214" x2="30" y2="206" stroke="#16a34a" stroke-width="1.5"/>
+    <circle cx="30" cy="205" r="3" fill="#4ade80"><animate attributeName="fill" values="#4ade80;#bbf7d0;#4ade80" dur="1.4s" repeatCount="indefinite"/></circle>
+    <rect x="16" y="214" width="28" height="22" rx="4" fill="#86efac" stroke="#16a34a" stroke-width="1.5"/>
+    <rect x="20" y="218" width="20" height="10" rx="2" fill="#052e16"/>
+    <rect x="23" y="221" width="5" height="4" rx="1" fill="#4ade80"><animate attributeName="fill" values="#4ade80;#bbf7d0;#4ade80" dur="2s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="221" width="5" height="4" rx="1" fill="#4ade80"><animate attributeName="fill" values="#4ade80;#bbf7d0;#4ade80" dur="2s" repeatCount="indefinite" begin="0.4s"/></rect>
+    <rect x="18" y="238" width="24" height="20" rx="3" fill="#bbf7d0" stroke="#16a34a" stroke-width="1.2"/>
+    <rect x="24" y="242" width="12" height="8" rx="1.5" fill="#16a34a"/>
+    <circle cx="28" cy="246" r="1.5" fill="#4ade80"/><circle cx="33" cy="246" r="1.5" fill="#fbbf24"/>
+    <g style="animation: armSwing 0.4s ease-in-out infinite"><rect x="8" y="240" width="10" height="4" rx="2" fill="#86efac" stroke="#16a34a" stroke-width="0.8"/><rect x="4" y="244" width="5" height="8" rx="2" fill="#86efac" stroke="#16a34a" stroke-width="0.8"/></g>
+    <g style="animation: armSwing 0.4s ease-in-out infinite reverse"><rect x="42" y="240" width="10" height="4" rx="2" fill="#86efac" stroke="#16a34a" stroke-width="0.8"/><rect x="50" y="244" width="5" height="8" rx="2" fill="#86efac" stroke="#16a34a" stroke-width="0.8"/></g>
+    <rect x="21" y="258" width="6" height="12" rx="2" fill="#86efac" stroke="#16a34a" stroke-width="0.8"><animate attributeName="x" values="21;18;21;24;21" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="33" y="258" width="6" height="12" rx="2" fill="#86efac" stroke="#16a34a" stroke-width="0.8"><animate attributeName="x" values="33;36;33;30;33" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="18" y="269" width="10" height="4" rx="2" fill="#16a34a"><animate attributeName="x" values="18;15;18;21;18" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="269" width="10" height="4" rx="2" fill="#16a34a"><animate attributeName="x" values="32;35;32;29;32" dur="0.4s" repeatCount="indefinite"/></rect>
   </g>
 
-  <!-- Bot 4: Tools Bot (orange) - carrying wrench -->
-  <g style="animation: botWalk1 0.9s ease-in-out infinite">
-    <rect x="510" y="250" width="28" height="30" rx="8" fill="#fed7aa" stroke="#ea580c" stroke-width="1.2"/>
-    <circle cx="524" cy="242" r="14" fill="#fff7ed" stroke="#ea580c" stroke-width="1.2"/>
-    <circle cx="519" cy="239" r="2.2" fill="#7c2d12"/>
-    <circle cx="529" cy="239" r="2.2" fill="#7c2d12"/>
-    <path d="M519,247 Q524,251 529,247" fill="none" stroke="#7c2d12" stroke-width="1.2"/>
-    <!-- Wrench -->
-    <line x1="540" y1="245" x2="548" y2="237" stroke="#f97316" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="549" cy="236" r="3" fill="none" stroke="#f97316" stroke-width="1.5"/>
-    <line x1="510" y1="256" x2="500" y2="262" stroke="#ea580c" stroke-width="2" stroke-linecap="round"/>
-    <line x1="538" y1="256" x2="540" y2="246" stroke="#ea580c" stroke-width="2" stroke-linecap="round"/>
-    <line x1="517" y1="280" x2="513" y2="293" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"><animate attributeName="x2" values="513;510;513" dur="0.9s" repeatCount="indefinite"/></line>
-    <line x1="531" y1="280" x2="535" y2="293" stroke="#ea580c" stroke-width="2.5" stroke-linecap="round"><animate attributeName="x2" values="535;538;535" dur="0.9s" repeatCount="indefinite"/></line>
-    <rect x="503" y="200" width="42" height="14" rx="7" fill="#ea580c" filter="url(#shadow)"/>
-    <text x="524" y="210" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="white" font-weight="bold">TOOLS</text>
+  <!-- ROBOT 4: TOOLS (Orange) -->
+  <g style="animation: bot4Walk 30s linear infinite">
+    <rect x="5" y="195" width="50" height="16" rx="8" fill="#ea580c" filter="url(#sh)"/>
+    <text x="30" y="206" text-anchor="middle" class="lbl" fill="white">TOOLS</text>
+    <line x1="30" y1="214" x2="30" y2="206" stroke="#ea580c" stroke-width="1.5"/>
+    <circle cx="30" cy="205" r="3" fill="#fb923c"><animate attributeName="fill" values="#fb923c;#fed7aa;#fb923c" dur="1s" repeatCount="indefinite"/></circle>
+    <rect x="16" y="214" width="28" height="22" rx="4" fill="#fdba74" stroke="#ea580c" stroke-width="1.5"/>
+    <rect x="20" y="218" width="20" height="10" rx="2" fill="#431407"/>
+    <rect x="23" y="221" width="5" height="4" rx="1" fill="#fb923c"><animate attributeName="fill" values="#fb923c;#fed7aa;#fb923c" dur="1.5s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="221" width="5" height="4" rx="1" fill="#fb923c"><animate attributeName="fill" values="#fb923c;#fed7aa;#fb923c" dur="1.5s" repeatCount="indefinite" begin="0.3s"/></rect>
+    <rect x="18" y="238" width="24" height="20" rx="3" fill="#fed7aa" stroke="#ea580c" stroke-width="1.2"/>
+    <rect x="24" y="242" width="12" height="8" rx="1.5" fill="#ea580c"/>
+    <circle cx="28" cy="246" r="1.5" fill="#fb923c"/><circle cx="33" cy="246" r="1.5" fill="#22c55e"/>
+    <g style="animation: armSwing 0.4s ease-in-out infinite"><rect x="8" y="240" width="10" height="4" rx="2" fill="#fdba74" stroke="#ea580c" stroke-width="0.8"/><rect x="4" y="244" width="5" height="8" rx="2" fill="#fdba74" stroke="#ea580c" stroke-width="0.8"/></g>
+    <g style="animation: armSwing 0.4s ease-in-out infinite reverse"><rect x="42" y="240" width="10" height="4" rx="2" fill="#fdba74" stroke="#ea580c" stroke-width="0.8"/><rect x="50" y="244" width="5" height="8" rx="2" fill="#fdba74" stroke="#ea580c" stroke-width="0.8"/></g>
+    <rect x="21" y="258" width="6" height="12" rx="2" fill="#fdba74" stroke="#ea580c" stroke-width="0.8"><animate attributeName="x" values="21;18;21;24;21" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="33" y="258" width="6" height="12" rx="2" fill="#fdba74" stroke="#ea580c" stroke-width="0.8"><animate attributeName="x" values="33;36;33;30;33" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="18" y="269" width="10" height="4" rx="2" fill="#ea580c"><animate attributeName="x" values="18;15;18;21;18" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="269" width="10" height="4" rx="2" fill="#ea580c"><animate attributeName="x" values="32;35;32;29;32" dur="0.4s" repeatCount="indefinite"/></rect>
   </g>
 
-  <!-- Bot 5: Memory Bot (pink) - holding chip -->
-  <g style="animation: botWalk2 1.1s ease-in-out infinite">
-    <rect x="640" y="252" width="26" height="28" rx="7" fill="#f9a8d4" stroke="#db2777" stroke-width="1.2"/>
-    <circle cx="653" cy="244" r="13" fill="#fce7f3" stroke="#db2777" stroke-width="1.2"/>
-    <circle cx="648" cy="241" r="2.2" fill="#831843"/>
-    <circle cx="658" cy="241" r="2.2" fill="#831843"/>
-    <path d="M648,248 Q653,252 658,248" fill="none" stroke="#831843" stroke-width="1.2"/>
-    <!-- Memory chip -->
-    <rect x="667" y="254" width="10" height="8" rx="1" fill="#f472b6" stroke="#db2777" stroke-width="0.8"/>
-    <line x1="665" y1="256" x2="667" y2="256" stroke="#db2777" stroke-width="0.6"/>
-    <line x1="665" y1="259" x2="667" y2="259" stroke="#db2777" stroke-width="0.6"/>
-    <line x1="677" y1="256" x2="679" y2="256" stroke="#db2777" stroke-width="0.6"/>
-    <line x1="677" y1="259" x2="679" y2="259" stroke="#db2777" stroke-width="0.6"/>
-    <line x1="640" y1="258" x2="632" y2="265" stroke="#db2777" stroke-width="2" stroke-linecap="round"/>
-    <line x1="666" y1="258" x2="667" y2="255" stroke="#db2777" stroke-width="2" stroke-linecap="round"/>
-    <line x1="647" y1="280" x2="643" y2="293" stroke="#db2777" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="659" y1="280" x2="663" y2="293" stroke="#db2777" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="630" y="204" width="46" height="14" rx="7" fill="#db2777" filter="url(#shadow)"/>
-    <text x="653" y="214" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="white" font-weight="bold">MEM</text>
+  <!-- ROBOT 5: MEMORY (Pink) -->
+  <g style="animation: bot5Walk 30s linear infinite">
+    <rect x="1" y="195" width="58" height="16" rx="8" fill="#db2777" filter="url(#sh)"/>
+    <text x="30" y="206" text-anchor="middle" class="lbl" fill="white">MEMORY</text>
+    <line x1="30" y1="214" x2="30" y2="206" stroke="#db2777" stroke-width="1.5"/>
+    <circle cx="30" cy="205" r="3" fill="#f472b6"><animate attributeName="fill" values="#f472b6;#fbcfe8;#f472b6" dur="1.3s" repeatCount="indefinite"/></circle>
+    <rect x="16" y="214" width="28" height="22" rx="4" fill="#f9a8d4" stroke="#db2777" stroke-width="1.5"/>
+    <rect x="20" y="218" width="20" height="10" rx="2" fill="#500724"/>
+    <rect x="23" y="221" width="5" height="4" rx="1" fill="#f472b6"><animate attributeName="fill" values="#f472b6;#fbcfe8;#f472b6" dur="1.6s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="221" width="5" height="4" rx="1" fill="#f472b6"><animate attributeName="fill" values="#f472b6;#fbcfe8;#f472b6" dur="1.6s" repeatCount="indefinite" begin="0.5s"/></rect>
+    <rect x="18" y="238" width="24" height="20" rx="3" fill="#fbcfe8" stroke="#db2777" stroke-width="1.2"/>
+    <rect x="24" y="242" width="12" height="8" rx="1.5" fill="#db2777"/>
+    <circle cx="28" cy="246" r="1.5" fill="#f472b6"/><circle cx="33" cy="246" r="1.5" fill="#818cf8"/>
+    <g style="animation: armSwing 0.4s ease-in-out infinite"><rect x="8" y="240" width="10" height="4" rx="2" fill="#f9a8d4" stroke="#db2777" stroke-width="0.8"/><rect x="4" y="244" width="5" height="8" rx="2" fill="#f9a8d4" stroke="#db2777" stroke-width="0.8"/></g>
+    <g style="animation: armSwing 0.4s ease-in-out infinite reverse"><rect x="42" y="240" width="10" height="4" rx="2" fill="#f9a8d4" stroke="#db2777" stroke-width="0.8"/><rect x="50" y="244" width="5" height="8" rx="2" fill="#f9a8d4" stroke="#db2777" stroke-width="0.8"/></g>
+    <rect x="21" y="258" width="6" height="12" rx="2" fill="#f9a8d4" stroke="#db2777" stroke-width="0.8"><animate attributeName="x" values="21;18;21;24;21" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="33" y="258" width="6" height="12" rx="2" fill="#f9a8d4" stroke="#db2777" stroke-width="0.8"><animate attributeName="x" values="33;36;33;30;33" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="18" y="269" width="10" height="4" rx="2" fill="#db2777"><animate attributeName="x" values="18;15;18;21;18" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="269" width="10" height="4" rx="2" fill="#db2777"><animate attributeName="x" values="32;35;32;29;32" dur="0.4s" repeatCount="indefinite"/></rect>
   </g>
 
-  <!-- Bot 6: Guard Bot (red) - shield -->
-  <g style="animation: botWalk1 1s ease-in-out infinite">
-    <rect x="750" y="250" width="28" height="30" rx="8" fill="#fca5a5" stroke="#dc2626" stroke-width="1.2"/>
-    <circle cx="764" cy="242" r="14" fill="#fee2e2" stroke="#dc2626" stroke-width="1.2"/>
-    <circle cx="759" cy="239" r="2.2" fill="#7f1d1d"/>
-    <circle cx="769" cy="239" r="2.2" fill="#7f1d1d"/>
-    <path d="M759,247 L769,247" fill="none" stroke="#7f1d1d" stroke-width="1.5"/>
-    <!-- Shield -->
-    <path d="M780,240 L780,252 Q780,258 785,260 Q790,258 790,252 L790,240 L785,237 Z" fill="#fca5a5" stroke="#dc2626" stroke-width="1.2"/>
-    <text x="785" y="252" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#dc2626" font-weight="bold">!</text>
-    <line x1="750" y1="256" x2="740" y2="262" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
-    <line x1="778" y1="256" x2="780" y2="241" stroke="#dc2626" stroke-width="2" stroke-linecap="round"/>
-    <line x1="757" y1="280" x2="753" y2="293" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="771" y1="280" x2="775" y2="293" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="742" y="200" width="44" height="14" rx="7" fill="#dc2626" filter="url(#shadow)"/>
-    <text x="764" y="210" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="white" font-weight="bold">GUARD</text>
+  <!-- ROBOT 6: GUARD (Red) -->
+  <g style="animation: bot6Walk 30s linear infinite">
+    <rect x="5" y="195" width="50" height="16" rx="8" fill="#dc2626" filter="url(#sh)"/>
+    <text x="30" y="206" text-anchor="middle" class="lbl" fill="white">GUARD</text>
+    <line x1="30" y1="214" x2="30" y2="206" stroke="#dc2626" stroke-width="1.5"/>
+    <circle cx="30" cy="205" r="3" fill="#f87171"><animate attributeName="fill" values="#f87171;#fca5a5;#f87171" dur="0.8s" repeatCount="indefinite"/></circle>
+    <rect x="16" y="214" width="28" height="22" rx="4" fill="#fca5a5" stroke="#dc2626" stroke-width="1.5"/>
+    <rect x="20" y="218" width="20" height="10" rx="2" fill="#450a0a"/>
+    <rect x="23" y="221" width="5" height="4" rx="1" fill="#f87171"><animate attributeName="fill" values="#f87171;#fca5a5;#f87171" dur="1.2s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="221" width="5" height="4" rx="1" fill="#f87171"><animate attributeName="fill" values="#f87171;#fca5a5;#f87171" dur="1.2s" repeatCount="indefinite" begin="0.2s"/></rect>
+    <rect x="18" y="238" width="24" height="20" rx="3" fill="#fecaca" stroke="#dc2626" stroke-width="1.2"/>
+    <rect x="24" y="242" width="12" height="8" rx="1.5" fill="#dc2626"/>
+    <circle cx="28" cy="246" r="1.5" fill="#f87171"/><circle cx="33" cy="246" r="1.5" fill="#f87171"/>
+    <g style="animation: armSwing 0.4s ease-in-out infinite"><rect x="8" y="240" width="10" height="4" rx="2" fill="#fca5a5" stroke="#dc2626" stroke-width="0.8"/><rect x="4" y="244" width="5" height="8" rx="2" fill="#fca5a5" stroke="#dc2626" stroke-width="0.8"/></g>
+    <g style="animation: armSwing 0.4s ease-in-out infinite reverse"><rect x="42" y="240" width="10" height="4" rx="2" fill="#fca5a5" stroke="#dc2626" stroke-width="0.8"/><rect x="50" y="244" width="5" height="8" rx="2" fill="#fca5a5" stroke="#dc2626" stroke-width="0.8"/></g>
+    <rect x="21" y="258" width="6" height="12" rx="2" fill="#fca5a5" stroke="#dc2626" stroke-width="0.8"><animate attributeName="x" values="21;18;21;24;21" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="33" y="258" width="6" height="12" rx="2" fill="#fca5a5" stroke="#dc2626" stroke-width="0.8"><animate attributeName="x" values="33;36;33;30;33" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="18" y="269" width="10" height="4" rx="2" fill="#dc2626"><animate attributeName="x" values="18;15;18;21;18" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="269" width="10" height="4" rx="2" fill="#dc2626"><animate attributeName="x" values="32;35;32;29;32" dur="0.4s" repeatCount="indefinite"/></rect>
   </g>
 
-  <!-- ===== THE TRAIN (moves right to left) ===== -->
-  <g style="animation: trainMove 22s linear infinite">
+  <!-- ROBOT 7: OUTPUT (Teal) -->
+  <g style="animation: bot7Walk 30s linear infinite">
+    <rect x="1" y="195" width="58" height="16" rx="8" fill="#0d9488" filter="url(#sh)"/>
+    <text x="30" y="206" text-anchor="middle" class="lbl" fill="white">OUTPUT</text>
+    <line x1="30" y1="214" x2="30" y2="206" stroke="#0d9488" stroke-width="1.5"/>
+    <circle cx="30" cy="205" r="3" fill="#2dd4bf"><animate attributeName="fill" values="#2dd4bf;#99f6e4;#2dd4bf" dur="1.1s" repeatCount="indefinite"/></circle>
+    <rect x="16" y="214" width="28" height="22" rx="4" fill="#5eead4" stroke="#0d9488" stroke-width="1.5"/>
+    <rect x="20" y="218" width="20" height="10" rx="2" fill="#042f2e"/>
+    <rect x="23" y="221" width="5" height="4" rx="1" fill="#2dd4bf"><animate attributeName="fill" values="#2dd4bf;#99f6e4;#2dd4bf" dur="1.4s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="221" width="5" height="4" rx="1" fill="#2dd4bf"><animate attributeName="fill" values="#2dd4bf;#99f6e4;#2dd4bf" dur="1.4s" repeatCount="indefinite" begin="0.3s"/></rect>
+    <rect x="18" y="238" width="24" height="20" rx="3" fill="#99f6e4" stroke="#0d9488" stroke-width="1.2"/>
+    <rect x="24" y="242" width="12" height="8" rx="1.5" fill="#0d9488"/>
+    <circle cx="28" cy="246" r="1.5" fill="#2dd4bf"/><circle cx="33" cy="246" r="1.5" fill="#fbbf24"/>
+    <g style="animation: armSwing 0.4s ease-in-out infinite"><rect x="8" y="240" width="10" height="4" rx="2" fill="#5eead4" stroke="#0d9488" stroke-width="0.8"/><rect x="4" y="244" width="5" height="8" rx="2" fill="#5eead4" stroke="#0d9488" stroke-width="0.8"/></g>
+    <g style="animation: armSwing 0.4s ease-in-out infinite reverse"><rect x="42" y="240" width="10" height="4" rx="2" fill="#5eead4" stroke="#0d9488" stroke-width="0.8"/><rect x="50" y="244" width="5" height="8" rx="2" fill="#5eead4" stroke="#0d9488" stroke-width="0.8"/></g>
+    <rect x="21" y="258" width="6" height="12" rx="2" fill="#5eead4" stroke="#0d9488" stroke-width="0.8"><animate attributeName="x" values="21;18;21;24;21" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="33" y="258" width="6" height="12" rx="2" fill="#5eead4" stroke="#0d9488" stroke-width="0.8"><animate attributeName="x" values="33;36;33;30;33" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="18" y="269" width="10" height="4" rx="2" fill="#0d9488"><animate attributeName="x" values="18;15;18;21;18" dur="0.4s" repeatCount="indefinite"/></rect>
+    <rect x="32" y="269" width="10" height="4" rx="2" fill="#0d9488"><animate attributeName="x" values="32;35;32;29;32" dur="0.4s" repeatCount="indefinite"/></rect>
+  </g>
 
-    <!-- === LOCOMOTIVE === -->
+  <!-- ===== TRAIN (arrives, waits, departs) ===== -->
+  <g style="animation: trainArrive 30s linear infinite">
+
+    <!-- LOCOMOTIVE -->
     <g>
       <!-- Smoke -->
-      <circle cx="45" cy="310" r="5" fill="#94a3b8" opacity="0"><animate attributeName="opacity" values="0;0.4;0" dur="1.5s" repeatCount="indefinite"/><animate attributeName="cy" values="310;285" dur="1.5s" repeatCount="indefinite"/><animate attributeName="r" values="5;12" dur="1.5s" repeatCount="indefinite"/></circle>
-      <circle cx="55" cy="315" r="4" fill="#94a3b8" opacity="0"><animate attributeName="opacity" values="0;0.3;0" dur="1.8s" repeatCount="indefinite" begin="0.4s"/><animate attributeName="cy" values="315;290" dur="1.8s" repeatCount="indefinite" begin="0.4s"/><animate attributeName="r" values="4;10" dur="1.8s" repeatCount="indefinite" begin="0.4s"/></circle>
-      <circle cx="35" cy="308" r="3" fill="#94a3b8" opacity="0"><animate attributeName="opacity" values="0;0.3;0" dur="2s" repeatCount="indefinite" begin="0.8s"/><animate attributeName="cy" values="308;280" dur="2s" repeatCount="indefinite" begin="0.8s"/><animate attributeName="r" values="3;9" dur="2s" repeatCount="indefinite" begin="0.8s"/></circle>
-
+      <circle cx="55" cy="300" r="4" fill="#94a3b8" opacity="0"><animate attributeName="opacity" values="0;0.4;0" dur="1.2s" repeatCount="indefinite"/><animate attributeName="cy" values="300;278" dur="1.2s" repeatCount="indefinite"/><animate attributeName="r" values="4;10" dur="1.2s" repeatCount="indefinite"/></circle>
+      <circle cx="45" cy="298" r="3" fill="#94a3b8" opacity="0"><animate attributeName="opacity" values="0;0.3;0" dur="1.5s" repeatCount="indefinite" begin="0.5s"/><animate attributeName="cy" values="298;275" dur="1.5s" repeatCount="indefinite" begin="0.5s"/><animate attributeName="r" values="3;8" dur="1.5s" repeatCount="indefinite" begin="0.5s"/></circle>
       <!-- Chimney -->
-      <rect x="38" y="315" width="14" height="18" rx="2" fill="#374151"/>
-      <rect x="35" y="312" width="20" height="6" rx="2" fill="#4b5563"/>
-
-      <!-- Main body -->
-      <rect x="20" y="333" width="130" height="42" rx="6" fill="#4338ca"/>
-      <rect x="20" y="333" width="130" height="8" rx="3" fill="#6366f1"/>
+      <rect x="42" y="302" width="12" height="15" rx="2" fill="#374151"/>
+      <rect x="39" y="299" width="18" height="5" rx="2" fill="#4b5563"/>
+      <!-- Body -->
+      <rect x="25" y="318" width="120" height="38" rx="5" fill="#4338ca"/>
+      <rect x="25" y="318" width="120" height="7" rx="3" fill="#6366f1"/>
       <!-- Windows -->
-      <rect x="75" y="340" width="22" height="16" rx="3" fill="#c7d2fe" stroke="#312e81" stroke-width="1"/>
-      <rect x="105" y="340" width="22" height="16" rx="3" fill="#c7d2fe" stroke="#312e81" stroke-width="1"/>
+      <rect x="72" y="326" width="18" height="14" rx="2" fill="#c7d2fe" stroke="#312e81" stroke-width="0.8"/>
+      <rect x="96" y="326" width="18" height="14" rx="2" fill="#c7d2fe" stroke="#312e81" stroke-width="0.8"/>
       <!-- Headlight -->
-      <circle cx="28" cy="354" r="6" fill="#fbbf24" filter="url(#gl)"><animate attributeName="opacity" values="0.8;1;0.8" dur="1s" repeatCount="indefinite"/></circle>
+      <circle cx="32" cy="337" r="5" fill="#fbbf24" filter="url(#gl)"><animate attributeName="opacity" values="0.8;1;0.8" dur="0.8s" repeatCount="indefinite"/></circle>
       <!-- Cowcatcher -->
-      <polygon points="15,375 20,365 20,375" fill="#312e81"/>
+      <polygon points="20,356 25,348 25,356" fill="#312e81"/>
       <!-- Label -->
-      <rect x="40" y="362" width="90" height="12" rx="6" fill="#312e81"/>
-      <text x="85" y="371" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#c7d2fe" font-weight="bold" letter-spacing="1px">ORCHESTRATOR</text>
+      <rect x="40" y="346" width="90" height="10" rx="5" fill="#312e81"/>
+      <text x="85" y="354" text-anchor="middle" font-family="'Courier New', monospace" font-size="6.5" fill="#c7d2fe" font-weight="bold" letter-spacing="1px">ORCHESTRATOR</text>
       <!-- Wheels -->
-      <circle cx="45" cy="377" r="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5">
-        <animateTransform attributeName="transform" type="rotate" from="0 45 377" to="360 45 377" dur="0.5s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="45" cy="377" r="2" fill="#a5b4fc"/>
-      <circle cx="85" cy="377" r="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5">
-        <animateTransform attributeName="transform" type="rotate" from="0 85 377" to="360 85 377" dur="0.5s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="85" cy="377" r="2" fill="#a5b4fc"/>
-      <circle cx="125" cy="377" r="8" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5">
-        <animateTransform attributeName="transform" type="rotate" from="0 125 377" to="360 125 377" dur="0.5s" repeatCount="indefinite"/>
-      </circle>
-      <circle cx="125" cy="377" r="2" fill="#a5b4fc"/>
+      <circle cx="50" cy="358" r="7" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 50 358" to="360 50 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="50" cy="358" r="2" fill="#a5b4fc"/>
+      <circle cx="85" cy="358" r="7" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 85 358" to="360 85 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="85" cy="358" r="2" fill="#a5b4fc"/>
+      <circle cx="120" cy="358" r="7" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 120 358" to="360 120 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="120" cy="358" r="2" fill="#a5b4fc"/>
     </g>
 
-    <!-- Connector -->
-    <rect x="150" y="360" width="15" height="6" rx="2" fill="#64748b"/>
+    <!-- Connector --><rect x="145" y="342" width="12" height="5" rx="2" fill="#64748b"/>
 
-    <!-- === CAR 1: LLM REASONING === -->
-    <g>
-      <rect x="165" y="333" width="120" height="42" rx="5" fill="#a855f7"/>
-      <rect x="165" y="333" width="120" height="6" rx="3" fill="#c084fc"/>
-      <rect x="178" y="342" width="18" height="14" rx="2" fill="#e9d5ff" stroke="#7c3aed" stroke-width="0.8"/>
-      <rect x="202" y="342" width="18" height="14" rx="2" fill="#e9d5ff" stroke="#7c3aed" stroke-width="0.8"/>
-      <rect x="226" y="342" width="18" height="14" rx="2" fill="#e9d5ff" stroke="#7c3aed" stroke-width="0.8"/>
-      <rect x="250" y="342" width="18" height="14" rx="2" fill="#e9d5ff" stroke="#7c3aed" stroke-width="0.8"/>
-      <!-- Bot silhouettes in windows -->
-      <circle cx="187" cy="347" r="4" fill="#c084fc"/><circle cx="211" cy="347" r="4" fill="#c084fc"/>
-      <circle cx="235" cy="347" r="4" fill="#c084fc"/><circle cx="259" cy="347" r="4" fill="#c084fc"/>
-      <rect x="175" y="362" width="100" height="12" rx="6" fill="#6b21a8"/>
-      <text x="225" y="371" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#e9d5ff" font-weight="bold" letter-spacing="0.5px">LLM REASONING</text>
-      <circle cx="185" cy="377" r="7" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 185 377" to="360 185 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="185" cy="377" r="2" fill="#c084fc"/>
-      <circle cx="265" cy="377" r="7" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 265 377" to="360 265 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="265" cy="377" r="2" fill="#c084fc"/>
-    </g>
+    <!-- CAR 1: LLM --><g><rect x="157" y="318" width="100" height="38" rx="4" fill="#a855f7"/><rect x="157" y="318" width="100" height="5" rx="3" fill="#c084fc"/><rect x="167" y="327" width="14" height="12" rx="2" fill="#e9d5ff" stroke="#7c3aed" stroke-width="0.6"/><rect x="185" y="327" width="14" height="12" rx="2" fill="#e9d5ff" stroke="#7c3aed" stroke-width="0.6"/><rect x="203" y="327" width="14" height="12" rx="2" fill="#e9d5ff" stroke="#7c3aed" stroke-width="0.6"/><rect x="221" y="327" width="14" height="12" rx="2" fill="#e9d5ff" stroke="#7c3aed" stroke-width="0.6"/><rect x="165" y="346" width="84" height="9" rx="4" fill="#6b21a8"/><text x="207" y="353" text-anchor="middle" font-family="'Courier New', monospace" font-size="6" fill="#e9d5ff" font-weight="bold">LLM REASON</text><circle cx="175" cy="358" r="6" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 175 358" to="360 175 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="175" cy="358" r="2" fill="#c084fc"/><circle cx="240" cy="358" r="6" fill="#1e1b4b" stroke="#a855f7" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 240 358" to="360 240 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="240" cy="358" r="2" fill="#c084fc"/></g>
 
-    <rect x="285" y="360" width="15" height="6" rx="2" fill="#64748b"/>
+    <rect x="257" y="342" width="12" height="5" rx="2" fill="#64748b"/>
 
-    <!-- === CAR 2: RAG RETRIEVAL === -->
-    <g>
-      <rect x="300" y="333" width="120" height="42" rx="5" fill="#3b82f6"/>
-      <rect x="300" y="333" width="120" height="6" rx="3" fill="#60a5fa"/>
-      <rect x="313" y="342" width="18" height="14" rx="2" fill="#dbeafe" stroke="#1d4ed8" stroke-width="0.8"/>
-      <rect x="337" y="342" width="18" height="14" rx="2" fill="#dbeafe" stroke="#1d4ed8" stroke-width="0.8"/>
-      <rect x="361" y="342" width="18" height="14" rx="2" fill="#dbeafe" stroke="#1d4ed8" stroke-width="0.8"/>
-      <rect x="385" y="342" width="18" height="14" rx="2" fill="#dbeafe" stroke="#1d4ed8" stroke-width="0.8"/>
-      <circle cx="322" cy="347" r="4" fill="#60a5fa"/><circle cx="346" cy="347" r="4" fill="#60a5fa"/>
-      <circle cx="370" cy="347" r="4" fill="#60a5fa"/><circle cx="394" cy="347" r="4" fill="#60a5fa"/>
-      <rect x="310" y="362" width="100" height="12" rx="6" fill="#1e3a8a"/>
-      <text x="360" y="371" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#dbeafe" font-weight="bold" letter-spacing="0.5px">RAG RETRIEVAL</text>
-      <circle cx="320" cy="377" r="7" fill="#1e1b4b" stroke="#3b82f6" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 320 377" to="360 320 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="320" cy="377" r="2" fill="#60a5fa"/>
-      <circle cx="400" cy="377" r="7" fill="#1e1b4b" stroke="#3b82f6" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 400 377" to="360 400 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="400" cy="377" r="2" fill="#60a5fa"/>
-    </g>
+    <!-- CAR 2: PLANNER --><g><rect x="269" y="318" width="100" height="38" rx="4" fill="#16a34a"/><rect x="269" y="318" width="100" height="5" rx="3" fill="#4ade80"/><rect x="279" y="327" width="14" height="12" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.6"/><rect x="297" y="327" width="14" height="12" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.6"/><rect x="315" y="327" width="14" height="12" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.6"/><rect x="333" y="327" width="14" height="12" rx="2" fill="#dcfce7" stroke="#166534" stroke-width="0.6"/><rect x="277" y="346" width="84" height="9" rx="4" fill="#14532d"/><text x="319" y="353" text-anchor="middle" font-family="'Courier New', monospace" font-size="6" fill="#dcfce7" font-weight="bold">PLANNER</text><circle cx="287" cy="358" r="6" fill="#1e1b4b" stroke="#16a34a" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 287 358" to="360 287 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="287" cy="358" r="2" fill="#4ade80"/><circle cx="352" cy="358" r="6" fill="#1e1b4b" stroke="#16a34a" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 352 358" to="360 352 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="352" cy="358" r="2" fill="#4ade80"/></g>
 
-    <rect x="420" y="360" width="15" height="6" rx="2" fill="#64748b"/>
+    <rect x="369" y="342" width="12" height="5" rx="2" fill="#64748b"/>
 
-    <!-- === CAR 3: TOOLS === -->
-    <g>
-      <rect x="435" y="333" width="120" height="42" rx="5" fill="#f97316"/>
-      <rect x="435" y="333" width="120" height="6" rx="3" fill="#fb923c"/>
-      <rect x="448" y="342" width="18" height="14" rx="2" fill="#fff7ed" stroke="#c2410c" stroke-width="0.8"/>
-      <rect x="472" y="342" width="18" height="14" rx="2" fill="#fff7ed" stroke="#c2410c" stroke-width="0.8"/>
-      <rect x="496" y="342" width="18" height="14" rx="2" fill="#fff7ed" stroke="#c2410c" stroke-width="0.8"/>
-      <rect x="520" y="342" width="18" height="14" rx="2" fill="#fff7ed" stroke="#c2410c" stroke-width="0.8"/>
-      <circle cx="457" cy="347" r="4" fill="#fb923c"/><circle cx="481" cy="347" r="4" fill="#fb923c"/>
-      <circle cx="505" cy="347" r="4" fill="#fb923c"/><circle cx="529" cy="347" r="4" fill="#fb923c"/>
-      <rect x="445" y="362" width="100" height="12" rx="6" fill="#7c2d12"/>
-      <text x="495" y="371" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#fed7aa" font-weight="bold" letter-spacing="0.5px">TOOL EXECUTE</text>
-      <circle cx="455" cy="377" r="7" fill="#1e1b4b" stroke="#f97316" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 455 377" to="360 455 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="455" cy="377" r="2" fill="#fb923c"/>
-      <circle cx="535" cy="377" r="7" fill="#1e1b4b" stroke="#f97316" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 535 377" to="360 535 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="535" cy="377" r="2" fill="#fb923c"/>
-    </g>
+    <!-- CAR 3: TOOLS --><g><rect x="381" y="318" width="100" height="38" rx="4" fill="#ea580c"/><rect x="381" y="318" width="100" height="5" rx="3" fill="#fb923c"/><rect x="391" y="327" width="14" height="12" rx="2" fill="#fff7ed" stroke="#9a3412" stroke-width="0.6"/><rect x="409" y="327" width="14" height="12" rx="2" fill="#fff7ed" stroke="#9a3412" stroke-width="0.6"/><rect x="427" y="327" width="14" height="12" rx="2" fill="#fff7ed" stroke="#9a3412" stroke-width="0.6"/><rect x="445" y="327" width="14" height="12" rx="2" fill="#fff7ed" stroke="#9a3412" stroke-width="0.6"/><rect x="389" y="346" width="84" height="9" rx="4" fill="#7c2d12"/><text x="431" y="353" text-anchor="middle" font-family="'Courier New', monospace" font-size="6" fill="#fed7aa" font-weight="bold">TOOL EXEC</text><circle cx="399" cy="358" r="6" fill="#1e1b4b" stroke="#ea580c" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 399 358" to="360 399 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="399" cy="358" r="2" fill="#fb923c"/><circle cx="464" cy="358" r="6" fill="#1e1b4b" stroke="#ea580c" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 464 358" to="360 464 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="464" cy="358" r="2" fill="#fb923c"/></g>
 
-    <rect x="555" y="360" width="15" height="6" rx="2" fill="#64748b"/>
+    <rect x="481" y="342" width="12" height="5" rx="2" fill="#64748b"/>
 
-    <!-- === CAR 4: MEMORY === -->
-    <g>
-      <rect x="570" y="333" width="120" height="42" rx="5" fill="#ec4899"/>
-      <rect x="570" y="333" width="120" height="6" rx="3" fill="#f472b6"/>
-      <rect x="583" y="342" width="18" height="14" rx="2" fill="#fce7f3" stroke="#be185d" stroke-width="0.8"/>
-      <rect x="607" y="342" width="18" height="14" rx="2" fill="#fce7f3" stroke="#be185d" stroke-width="0.8"/>
-      <rect x="631" y="342" width="18" height="14" rx="2" fill="#fce7f3" stroke="#be185d" stroke-width="0.8"/>
-      <rect x="655" y="342" width="18" height="14" rx="2" fill="#fce7f3" stroke="#be185d" stroke-width="0.8"/>
-      <circle cx="592" cy="347" r="4" fill="#f472b6"/><circle cx="616" cy="347" r="4" fill="#f472b6"/>
-      <circle cx="640" cy="347" r="4" fill="#f472b6"/><circle cx="664" cy="347" r="4" fill="#f472b6"/>
-      <rect x="580" y="362" width="100" height="12" rx="6" fill="#831843"/>
-      <text x="630" y="371" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#fce7f3" font-weight="bold" letter-spacing="0.5px">MEMORY STORE</text>
-      <circle cx="590" cy="377" r="7" fill="#1e1b4b" stroke="#ec4899" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 590 377" to="360 590 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="590" cy="377" r="2" fill="#f472b6"/>
-      <circle cx="670" cy="377" r="7" fill="#1e1b4b" stroke="#ec4899" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 670 377" to="360 670 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="670" cy="377" r="2" fill="#f472b6"/>
-    </g>
+    <!-- CAR 4: MEMORY --><g><rect x="493" y="318" width="100" height="38" rx="4" fill="#db2777"/><rect x="493" y="318" width="100" height="5" rx="3" fill="#f472b6"/><rect x="503" y="327" width="14" height="12" rx="2" fill="#fce7f3" stroke="#9d174d" stroke-width="0.6"/><rect x="521" y="327" width="14" height="12" rx="2" fill="#fce7f3" stroke="#9d174d" stroke-width="0.6"/><rect x="539" y="327" width="14" height="12" rx="2" fill="#fce7f3" stroke="#9d174d" stroke-width="0.6"/><rect x="557" y="327" width="14" height="12" rx="2" fill="#fce7f3" stroke="#9d174d" stroke-width="0.6"/><rect x="501" y="346" width="84" height="9" rx="4" fill="#831843"/><text x="543" y="353" text-anchor="middle" font-family="'Courier New', monospace" font-size="6" fill="#fce7f3" font-weight="bold">MEMORY</text><circle cx="511" cy="358" r="6" fill="#1e1b4b" stroke="#db2777" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 511 358" to="360 511 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="511" cy="358" r="2" fill="#f472b6"/><circle cx="576" cy="358" r="6" fill="#1e1b4b" stroke="#db2777" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 576 358" to="360 576 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="576" cy="358" r="2" fill="#f472b6"/></g>
 
-    <rect x="690" y="360" width="15" height="6" rx="2" fill="#64748b"/>
+    <rect x="593" y="342" width="12" height="5" rx="2" fill="#64748b"/>
 
-    <!-- === CAR 5: GUARDRAILS === -->
-    <g>
-      <rect x="705" y="333" width="120" height="42" rx="5" fill="#ef4444"/>
-      <rect x="705" y="333" width="120" height="6" rx="3" fill="#f87171"/>
-      <rect x="718" y="342" width="18" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.8"/>
-      <rect x="742" y="342" width="18" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.8"/>
-      <rect x="766" y="342" width="18" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.8"/>
-      <rect x="790" y="342" width="18" height="14" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.8"/>
-      <circle cx="727" cy="347" r="4" fill="#f87171"/><circle cx="751" cy="347" r="4" fill="#f87171"/>
-      <circle cx="775" cy="347" r="4" fill="#f87171"/><circle cx="799" cy="347" r="4" fill="#f87171"/>
-      <rect x="715" y="362" width="100" height="12" rx="6" fill="#7f1d1d"/>
-      <text x="765" y="371" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#fee2e2" font-weight="bold" letter-spacing="0.5px">GUARDRAILS</text>
-      <circle cx="725" cy="377" r="7" fill="#1e1b4b" stroke="#ef4444" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 725 377" to="360 725 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="725" cy="377" r="2" fill="#f87171"/>
-      <circle cx="805" cy="377" r="7" fill="#1e1b4b" stroke="#ef4444" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 805 377" to="360 805 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="805" cy="377" r="2" fill="#f87171"/>
-    </g>
+    <!-- CAR 5: GUARD --><g><rect x="605" y="318" width="100" height="38" rx="4" fill="#dc2626"/><rect x="605" y="318" width="100" height="5" rx="3" fill="#f87171"/><rect x="615" y="327" width="14" height="12" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.6"/><rect x="633" y="327" width="14" height="12" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.6"/><rect x="651" y="327" width="14" height="12" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.6"/><rect x="669" y="327" width="14" height="12" rx="2" fill="#fee2e2" stroke="#991b1b" stroke-width="0.6"/><rect x="613" y="346" width="84" height="9" rx="4" fill="#7f1d1d"/><text x="655" y="353" text-anchor="middle" font-family="'Courier New', monospace" font-size="6" fill="#fee2e2" font-weight="bold">GUARDRAILS</text><circle cx="623" cy="358" r="6" fill="#1e1b4b" stroke="#dc2626" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 623 358" to="360 623 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="623" cy="358" r="2" fill="#f87171"/><circle cx="688" cy="358" r="6" fill="#1e1b4b" stroke="#dc2626" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 688 358" to="360 688 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="688" cy="358" r="2" fill="#f87171"/></g>
 
-    <rect x="825" y="360" width="15" height="6" rx="2" fill="#64748b"/>
+    <rect x="705" y="342" width="12" height="5" rx="2" fill="#64748b"/>
 
-    <!-- === CAR 6: OUTPUT === -->
-    <g>
-      <rect x="840" y="333" width="120" height="42" rx="5" fill="#10b981"/>
-      <rect x="840" y="333" width="120" height="6" rx="3" fill="#34d399"/>
-      <rect x="853" y="342" width="18" height="14" rx="2" fill="#dcfce7" stroke="#065f46" stroke-width="0.8"/>
-      <rect x="877" y="342" width="18" height="14" rx="2" fill="#dcfce7" stroke="#065f46" stroke-width="0.8"/>
-      <rect x="901" y="342" width="18" height="14" rx="2" fill="#dcfce7" stroke="#065f46" stroke-width="0.8"/>
-      <rect x="925" y="342" width="18" height="14" rx="2" fill="#dcfce7" stroke="#065f46" stroke-width="0.8"/>
-      <circle cx="862" cy="347" r="4" fill="#34d399"/><circle cx="886" cy="347" r="4" fill="#34d399"/>
-      <circle cx="910" cy="347" r="4" fill="#34d399"/><circle cx="934" cy="347" r="4" fill="#34d399"/>
-      <rect x="850" y="362" width="100" height="12" rx="6" fill="#064e3b"/>
-      <text x="900" y="371" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#dcfce7" font-weight="bold" letter-spacing="0.5px">OUTPUT ACTION</text>
-      <circle cx="860" cy="377" r="7" fill="#1e1b4b" stroke="#10b981" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 860 377" to="360 860 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="860" cy="377" r="2" fill="#34d399"/>
-      <circle cx="940" cy="377" r="7" fill="#1e1b4b" stroke="#10b981" stroke-width="1.5"><animateTransform attributeName="transform" type="rotate" from="0 940 377" to="360 940 377" dur="0.5s" repeatCount="indefinite"/></circle>
-      <circle cx="940" cy="377" r="2" fill="#34d399"/>
-    </g>
+    <!-- CAR 6: OUTPUT --><g><rect x="717" y="318" width="100" height="38" rx="4" fill="#0d9488"/><rect x="717" y="318" width="100" height="5" rx="3" fill="#2dd4bf"/><rect x="727" y="327" width="14" height="12" rx="2" fill="#ccfbf1" stroke="#115e59" stroke-width="0.6"/><rect x="745" y="327" width="14" height="12" rx="2" fill="#ccfbf1" stroke="#115e59" stroke-width="0.6"/><rect x="763" y="327" width="14" height="12" rx="2" fill="#ccfbf1" stroke="#115e59" stroke-width="0.6"/><rect x="781" y="327" width="14" height="12" rx="2" fill="#ccfbf1" stroke="#115e59" stroke-width="0.6"/><rect x="725" y="346" width="84" height="9" rx="4" fill="#064e3b"/><text x="767" y="353" text-anchor="middle" font-family="'Courier New', monospace" font-size="6" fill="#ccfbf1" font-weight="bold">OUTPUT</text><circle cx="735" cy="358" r="6" fill="#1e1b4b" stroke="#0d9488" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 735 358" to="360 735 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="735" cy="358" r="2" fill="#2dd4bf"/><circle cx="800" cy="358" r="6" fill="#1e1b4b" stroke="#0d9488" stroke-width="1.2"><animateTransform attributeName="transform" type="rotate" from="0 800 358" to="360 800 358" dur="0.4s" repeatCount="indefinite"/></circle><circle cx="800" cy="358" r="2" fill="#2dd4bf"/></g>
   </g>
 
-  <!-- ===== INFO BOARD on platform ===== -->
-  <rect x="30" y="140" width="50" height="70" rx="4" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-  <text x="55" y="157" text-anchor="middle" font-family="'Courier New', monospace" font-size="6" fill="#94a3b8">NEXT</text>
-  <text x="55" y="170" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" fill="#22c55e" font-weight="bold">
-    AGENT
-    <animate attributeName="fill" values="#22c55e;#4ade80;#22c55e" dur="2s" repeatCount="indefinite"/>
+  <!-- Footer -->
+  <text x="450" y="400" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#64748b" letter-spacing="1.5px">
+    How Agentic AI Works: Query > Reason > Plan > Execute > Remember > Guard > Output
   </text>
-  <text x="55" y="182" text-anchor="middle" font-family="'Courier New', monospace" font-size="8" fill="#22c55e" font-weight="bold">
-    EXPRESS
-  </text>
-  <text x="55" y="198" text-anchor="middle" font-family="'Courier New', monospace" font-size="6" fill="#f97316">ON TIME</text>
-
-  <!-- Bench -->
-  <rect x="680" y="276" width="40" height="4" rx="2" fill="#475569"/>
-  <rect x="684" y="280" width="4" height="14" fill="#475569"/>
-  <rect x="712" y="280" width="4" height="14" fill="#475569"/>
-
-  <!-- Footer text -->
-  <text x="450" y="412" text-anchor="middle" font-family="'Segoe UI', system-ui, sans-serif" font-size="9" fill="#64748b" letter-spacing="1.5px">
-    The Agentic AI Express — Every Agent Has a Role, Every Tool Has a Car
+  <text x="450" y="415" text-anchor="middle" font-family="'Courier New', monospace" font-size="7" fill="#475569" letter-spacing="1px">
+    LangGraph // CrewAI // AutoGen // OpenAI // Claude // FastAPI // ChromaDB // FAISS // Pinecone
   </text>
 </svg>
