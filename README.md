@@ -1,12 +1,6 @@
 <div align="center">
 
-<!-- Agentic AI Train Station: Mechanical robots walk and board the Agent Express one by one -->
-<img src="agent-train.svg" alt="Agentic AI Station — Robots board the Pipeline Express" width="850"/>
-
-<br/>
-
-<!-- Typing SVG -->
-<a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=00FF41&center=true&vCenter=true&random=false&width=750&lines=AI+Engineer+%7C+Agentic+Systems+Builder;Building+OpenClaw+%E2%80%94+No+LLM+Calls%2C+Users+Teach+It;Ex-Goldman+Sachs+%7C+MS+%40+SUNY+Albany;LangGraph+%2B+FastAPI+%2B+Go+%2B+React;Open+Source+Contributor+%7C+NYC" alt="Typing SVG" /></a>
+<img src="header.svg" alt="Developer at work — ideas floating from the screen" width="850"/>
 
 </div>
 
