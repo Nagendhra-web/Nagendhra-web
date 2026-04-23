@@ -16,9 +16,9 @@
 nagendhra@ai:~$ cat /etc/profile
 ```
 
-AI Engineer with **4+ years** building enterprise-grade generative AI systems, retrieval-augmented generation pipelines, and agentic architectures. I ship production systems that serve thousands of users — not just prototypes.
+Data Engineer with **4+ years** building enterprise-grade generative AI systems, retrieval-augmented generation pipelines, and agentic architectures. I ship production systems that serve thousands of users — not just prototypes.
 
-- Previously **Data Engineer at Goldman Sachs**, where I validated 57M+ financial records with zero incidents
+- **Data Engineer at Salesforce, Inc**
 - **MS in Information Science (AI & Data Analytics)** from University at Albany, SUNY — GPA: 3.70/4.0
 - Currently building **agentic RAG systems** and **open-source developer tools** in NYC
 
