@@ -17,11 +17,13 @@
 
 ---
 
-I build systems that **remember**, **heal themselves**, and **find opportunity at scale**.
+I build things that get **starred, forked, and merged** — not just shipped.
 
-[`memory-bank`](https://github.com/Nagendhra-web/memory-bank) gave AI coding agents persistent, branch-aware memory — cutting wasted tokens by 60-80% per session. [`Immortal`](https://github.com/Nagendhra-web/Immortal) detects infrastructure failures in milliseconds and auto-recovers production systems using agentic AI — 79 Go packages, one binary. [`jobsheet.me`](https://github.com/Nagendhra-web/jobsheet.me) crawls 17K+ company career pages with autonomous LangGraph agents so engineers stop searching and start finding. [`global-emergency-map-ai`](https://github.com/Nagendhra-web/global-emergency-map-ai) applies real-time AI to surface and map global emergencies as they happen.
+[`memory-bank`](https://github.com/Nagendhra-web/memory-bank) has 38 stars and 10 forks — it gives Claude Code persistent, branch-aware memory that cuts wasted tokens by 60-80% per session. [`Immortal`](https://github.com/Nagendhra-web/Immortal) has 21 stars and 3 forks — a self-healing infrastructure engine written in Go that detects failures in milliseconds and auto-recovers with agentic AI.
 
-The pattern: **hard problems, production systems, zero shortcuts.**
+Outside my own repos: two PRs **merged this week** into [`nexu-io/open-design`](https://github.com/nexu-io/open-design) — one fixing a silent asset-bundling bug in inline CSS deploys, one adding a `/deploy/preflight` API that catches broken references before a single byte is uploaded. Four PRs open in [`mlflow/mlflow`](https://github.com/mlflow/mlflow) — fixing model logging in air-gapped clusters, auto-tracking git metadata on run start, adding `ConversationalCoherence` and `AgentPlanQuality` built-in judges for multi-turn LLM evaluation, and a Claude Code skill for GenAI tracing.
+
+The pattern: **find real problems in production systems, then fix them properly.**
 
 ---
 
