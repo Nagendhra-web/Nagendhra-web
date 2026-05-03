@@ -44,10 +44,8 @@ The pattern: **hard problems, production systems, zero shortcuts.**
 
 <div align="center">
 
-<!-- Stats — auto-updates on every page load -->
-<img height="180" src="https://github-readme-stats.vercel.app/api?username=Nagendhra-web&show_icons=true&theme=github_dark&hide_border=true&bg_color=0D1117&title_color=6EE7B7&icon_color=6EE7B7&text_color=C9D1D9&include_all_commits=true&count_private=true&rank_icon=github" alt="GitHub Stats"/>
-&nbsp;&nbsp;
-<img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Nagendhra-web&layout=compact&theme=github_dark&hide_border=true&bg_color=0D1117&title_color=6EE7B7&text_color=C9D1D9&langs_count=6" alt="Top Languages"/>
+<!-- Trophies — always reliable, no auth needed -->
+<img src="https://github-profile-trophy.vercel.app/?username=Nagendhra-web&theme=algolia&no-frame=true&no-bg=true&margin-w=6&column=6" alt="GitHub Trophies"/>
 
 </div>
 
