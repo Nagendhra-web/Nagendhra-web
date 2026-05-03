@@ -17,6 +17,14 @@
 
 ---
 
+I build systems that **remember**, **heal themselves**, and **find opportunity at scale**.
+
+[`memory-bank`](https://github.com/Nagendhra-web/memory-bank) gave AI coding agents persistent, branch-aware memory — cutting wasted tokens by 60-80% per session. [`Immortal`](https://github.com/Nagendhra-web/Immortal) detects infrastructure failures in milliseconds and auto-recovers production systems using agentic AI — 79 Go packages, one binary. [`jobsheet.me`](https://github.com/Nagendhra-web/jobsheet.me) crawls 17K+ company career pages with autonomous LangGraph agents so engineers stop searching and start finding. [`global-emergency-map-ai`](https://github.com/Nagendhra-web/global-emergency-map-ai) applies real-time AI to surface and map global emergencies as they happen.
+
+The pattern: **hard problems, production systems, zero shortcuts.**
+
+---
+
 ## Featured Projects
 
 <div align="center">
