@@ -10,7 +10,7 @@
 <!-- Social badges -->
 <a href="https://www.linkedin.com/in/nagendhra-madishetti"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
 <a href="mailto:nagendhra@jobsheet.me"><img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/></a>
-<a href="https://jobsheet.me"><img src="https://img.shields.io/badge/jobsheet.me-10B981?style=for-the-badge&logo=vercel&logoColor=white" alt="jobsheet.me"/></a>
+
 <a href="https://github.com/Nagendhra-web"><img src="https://komarev.com/ghpvc/?username=Nagendhra-web&style=for-the-badge&color=6EE7B7&label=PROFILE+VIEWS" alt="Profile Views"/></a>
 
 </div>
