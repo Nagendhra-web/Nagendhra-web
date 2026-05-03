@@ -17,18 +17,6 @@
 
 ---
 
-## About
-
-**Data & AI Engineer** — 4+ years building production-grade generative AI systems, retrieval-augmented generation pipelines, and agentic architectures. Based in **New York, NY**.
-
-- 🏢 **AI Systems Engineer** — Self-Employed (NYC) · Jan 2026 – Present
-- 🎓 **Graduate Research Assistant** — University at Albany, SUNY · Mar – Dec 2025
-- 💼 **Data Engineer** — Goldman Sachs, Hyderabad · Jan 2022 – 2023
-- 📚 **MS Information Science** (AI & Data Analytics) — University at Albany, SUNY · GPA 3.70/4.0
-- 🌐 Building at **[jobsheet.me](https://jobsheet.me)** — real-time job intelligence for thousands of users
-
----
-
 ## Featured Projects
 
 <div align="center">
